@@ -7,8 +7,8 @@ using namespace std;
 int main( int argc, char **argv )
 {
 	CvCapture *capture = 0;
-	IplImage  *frame = 0;
-	int       key = 0;
+	IplImage *frame = 0;
+	int key = 0;
 
 	/* initialize camera */
 	capture = cvCaptureFromCAM( 0 );
