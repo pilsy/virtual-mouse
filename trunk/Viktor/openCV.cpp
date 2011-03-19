@@ -9,13 +9,15 @@ using namespace cv;
 using namespace std;
 
 static int width = 640, height = 480;
-int xMin = 200, yMin = 200;
-int horizontal = 0;
-int vertical = 0;
-int X1, X2, Y1, Y2, R, stop = 0;
-CvSeq* circles;
+int xMin = 200, yMin = 200;				// Minimumhelyek koordinátái
+int horizontal = 0, vertical = 0;		// képernyõ felbontás
+int X1, X2, Y1, Y2, R, stop = -1;		// kör paraméterek és logikai érték a kereséshez
+CvSeq* circles;							// körök
 
 
+/*
+Minimális koordinátát megkeresõ eljárás
+*/
 void getMin(IplImage* segment){
 	CvScalar value;
 
@@ -36,6 +38,9 @@ void getMin(IplImage* segment){
 	}
 }
 
+/*
+felbontás lekérése
+*/
 void GetDesktopResolution(int& horizontal, int& vertical){
    RECT desktop;
    // Get a handle to the desktop window
@@ -49,12 +54,19 @@ void GetDesktopResolution(int& horizontal, int& vertical){
    vertical = desktop.bottom;
 }
 
+/*
+Az egér mozgatása
+*/
 void MoveTheMouse(){
 
+	// mozgatás a skálázott koordinátákra
 	SetCursorPos((int)(((xMin - X1)*horizontal) / (X2 - X1)), (int)(((yMin - Y1)*vertical) / (Y2 - Y1)));
 
 }
 
+/*
+korparaméterek kinyerése
+*/
 void GetCircleInfo(){
 
 	cout << "Circles found!" << endl;
@@ -63,6 +75,9 @@ void GetCircleInfo(){
 	float *p1 = (float *)cvGetSeqElem( circles, 0);
 	float *p2 = (float *)cvGetSeqElem( circles, 1);
 
+	/*
+	körök rendezése a skálázáshoz
+	*/
 	if (p1[0] > p2[0]){
 		X1 = (int)p2[0];
 		X2 = (int)p1[0];
@@ -79,7 +94,9 @@ void GetCircleInfo(){
 		Y2 = (int)p2[1];
 	}
 
-
+	/*
+	legnagyobb sugár lementése
+	*/
 	if (p1[2] > p2[2]){
 		R = (int)p1[2];
 	}else{
@@ -114,13 +131,12 @@ int main( int argc, char **argv )
 	cvSetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH,width);
 	cvSetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT,height);
  
-    /* always check */
+    /* sikerült-e megnyitni a camot */
     if ( !capture ) {
         fprintf( stderr, "Cannot open initialize webcam!\n" );
         return 1;
     }
  
-    /* create a window for the video */
     cvNamedWindow( "Original", CV_WINDOW_AUTOSIZE );
 	cvNamedWindow( "Threshold", CV_WINDOW_AUTOSIZE );
 
@@ -129,19 +145,20 @@ int main( int argc, char **argv )
 		segment = cvCreateImage(size, IPL_DEPTH_8U, 1);
  
     while( key != 'q' ) {
-        /* get a frame */
+       
+		// aktuális frame
         frame = cvQueryFrame( capture );
  
-        /* always check */
         if( !frame ) break;
 
 
 		cvCvtColor(frame, grey, CV_BGR2GRAY);
-		
 		cvSmooth(grey, grey, CV_GAUSSIAN, 11, 11, 2, 0);
-
 		cvThreshold(grey, segment, 140, 255, 0);
 
+		if (key == 'd'){
+			stop = 0;
+		}
 
 		if (stop == 0){
 
@@ -204,6 +221,9 @@ int main( int argc, char **argv )
 			MoveTheMouse();
 		}
 
+		/*
+		kereszt kirajzolása
+		*/
 		if (xMin > 5 && yMin > 5 && (xMin < width-5 && yMin < height -5 )){
 		value.val[0] = 0;
 		value.val[1] = 0;
