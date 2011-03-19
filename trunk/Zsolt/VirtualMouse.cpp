@@ -48,14 +48,18 @@ int _tmain(int argc, _TCHAR* argv[])
 	char k;
 	int hullCount = 0;
 	int min;
-	int clickDistance = 120;
-	int dXY = 25, dX = 5, dY = 5;
+	int clickDistance = 175;
+	int dXY = 30, dX = 5, dY = 5;
 
 	cout << "Kilepes: ESC" << endl;
 	cout << "------------" << endl;
 	cout << "dXY: " << dXY << ", dX: " << dX << ", dY: " << dY << endl;
 
 	cvNamedWindow("Virtual Mouse", CV_WINDOW_AUTOSIZE);
+
+	cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 30);
+	cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH, 640);
+	cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT, 480);
 
 	while(1) {
 		// kamera képének lementése
@@ -66,6 +70,9 @@ int _tmain(int argc, _TCHAR* argv[])
 		grayImg = cvCreateImage(cvSize(originalImg->width, originalImg->height), IPL_DEPTH_8U, 1);
 		cvCvtColor(originalImg, grayImg, CV_RGB2GRAY);
 
+		// simítás
+		cvSmooth(grayImg, grayImg, CV_GAUSSIAN, 11, 11, 2, 0);
+
 		// küszöbölés
 		cvThreshold(grayImg, grayImg, 0, 255, CV_THRESH_OTSU);
 
@@ -74,7 +81,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		// ha a kontúr által körbezárt terület nagyobb, mint 1000 (azaz biztos, hogy a kezet találtuk meg),
 		// csak akkor számolunk konvex burkot
-		if(cvContourArea(contours) > 1000) {
+		if(cvContourArea(contours) > 10000) {
 			convexHull = cvConvexHull2(contours);
 			hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
 		}
