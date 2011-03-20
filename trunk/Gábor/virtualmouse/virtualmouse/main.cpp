@@ -6,8 +6,7 @@
 #include "Motion.h"
 #include "Click.h"
 
-static int width = 320, height = 240;
-//int xMin = 200, yMin = 200;				// Minimumhelyek koordinátái
+static int width = 640, height = 480;
 int horizontal = 0, vertical = 0;
 
 CvMemStorage* storage = cvCreateMemStorage(0);
@@ -26,7 +25,7 @@ int main( int argc, char **argv )
 	CvSize size = cvSize( width, height);
 	int key=0;
 
-	motion->GetDesktopResolution(horizontal, vertical);
+	motion->GetDesktopResolution(motion->horizontal, motion->vertical);
  
     /* initialize camera */
     capture = cvCaptureFromCAM( 1 );
@@ -44,9 +43,9 @@ int main( int argc, char **argv )
     cvNamedWindow( "Original", CV_WINDOW_AUTOSIZE );
 	cvNamedWindow( "Threshold", CV_WINDOW_AUTOSIZE );
 
-	    grey  = cvCreateImage(size, IPL_DEPTH_8U, 1);
-		edges = cvCreateImage(size, IPL_DEPTH_8U, 1);
-		segment = cvCreateImage(size, IPL_DEPTH_8U, 1);
+	grey  = cvCreateImage(size, IPL_DEPTH_8U, 1);
+	edges = cvCreateImage(size, IPL_DEPTH_8U, 1);
+	segment = cvCreateImage(size, IPL_DEPTH_8U, 1);
  
     while( key != 27 ) {
        
@@ -58,8 +57,7 @@ int main( int argc, char **argv )
 
 		cvCvtColor(frame, grey, CV_BGR2GRAY);
 		cvSmooth(grey, grey, CV_GAUSSIAN, 11, 11, 2, 0);
-		cvThreshold(grey, segment, 140, 255, 0);
-		//cvThreshold(grey, segment, 0, 255, CV_THRESH_OTSU);
+		cvThreshold(grey, segment, 0, 255, CV_THRESH_OTSU);
 
 		motion->Hotkey(key);
 
@@ -72,60 +70,30 @@ int main( int argc, char **argv )
 
 			motion->CutRegion(segment);
 
-		}
+			motion->getMin(segment);
 
-		cvCanny( segment, edges, 60, 150, 3);
+			if (motion->startMove){
 
-		motion->getMin(segment);
+				motion->MoveTheMouse();
+			}
 
-		if (motion->startMove){
+			/*
+			kereszt kirajzolása
+			*/
+			motion->DrawKereszt(frame);
 
-			motion->MoveTheMouse();
-		}
-
-		/*
-		kereszt kirajzolása
-		*/
-		motion->DrawKereszt(frame);
-
-		/*-------------------------------------------------ujjmozgas------------------------------------------------*/
+			/*-------------------------------------------------ujjmozgas------------------------------------------------*/
 		
-		click->ConvexBurok(segment);
-		click->FindFingers(frame);
+			click->ConvexBurok(segment, frame);
+			click->FindFingers(frame);
+
+		}
 
 		click->Hotkey(key);
 
-		/*
-		for ( int i = 0; i < height; i++ ){
-
-				for ( int j = 0; j < width; j++ ){
-
-					value = cvGet2D(edges,i,j);
-
-					if (value.val[0] == 0){
-						value.val[0] = 255;
-						cvSet2D(edges, i,j,value);
-					} else {
-						value.val[0] = 0;
-						cvSet2D(edges, i,j,value);
-					}
-
-				}
-
-		}
-
-		//cvDistTransform(edges, edges, CV_DIST_L2, 3, 0,0);
-		
-		cvDistTransform(edges, edges, CV_DIST_L1, 5);
-		*/
-
-        /* display current frame */
-        //cvShowImage( "Canny", edges );
-		//cvShowImage( "Grey", grey );
 		cvShowImage( "Original", frame );
 		cvShowImage( "Threshold", segment );
  
-        /* exit if user press 'q' */
         key = cvWaitKey( 1 );
     }
  

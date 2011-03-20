@@ -23,17 +23,21 @@ int Click::minArg(CvSeq* points){
 	return min_i;
 }
 
-void Click::ConvexBurok(IplImage* grayImg){
+void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
+	try{
 	// kontúr megkeresése
 		cvFindContours(grayImg, this->storange, &contours, 88, CV_RETR_CCOMP);
 
 		// ha a kontúr által körbezárt terület nagyobb, mint 1000 (azaz biztos, hogy a kezet találtuk meg),
 		// csak akkor számolunk konvex burkot
-		if(cvContourArea(contours) > 10000) {
+		
+
+		if(cvContourArea(contours) > 1000) {
 			convexHull = cvConvexHull2(contours);
 			hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
 		}
-
+		
+		
 		// ha létezik a konvex burok (azaz nem csak a fekete hátteret látjuk, hanem elõtte van a kezünk), akkor...
 		if(hullCount > 0) {
 			// kovnvex burok pontjainak "ritkítása" (hogy egy ujjat csak egy pont szimbolizáljon)
@@ -47,12 +51,17 @@ void Click::ConvexBurok(IplImage* grayImg){
 //					cvCircle(originalImg, point, 3, CV_RGB(0, 255, 0), 3); // a már kiritkított pontok megjelenítése
 				}
 
-//				cvLine(originalImg, pointPrev, point, CV_RGB(0, 255, 0), 1); // konvex burok megjelenítése
+				cvLine(originalImg, pointPrev, point, CV_RGB(0, 255, 0), 1); // konvex burok megjelenítése
 			}
 		}
+	}catch (cv::Exception& e){
+		cout << "cink van 1" << endl;
+	}
+		
 }
 
 void Click::FindFingers(IplImage *originalImg){
+	try{
 		if(points->total > 0) {
 				// legkisebb y koordinátájú pont sorszáma
 				min = minArg(points);
@@ -67,7 +76,7 @@ void Click::FindFingers(IplImage *originalImg){
 				// kirajzolás: hüvelykujj kékkel, mutatóujj pirossal, a két pont távolsága sárgával
 				cvCircle(originalImg, fingerTip1, 3, CV_RGB(0, 0, 255), 3);
 				cvCircle(originalImg, fingerTip2, 3, CV_RGB(255, 0, 0), 3);
-				cvLine(originalImg, fingerTip1, fingerTip2, CV_RGB(255, 255, 0), 1);
+				//cvLine(originalImg, fingerTip1, fingerTip2, CV_RGB(255, 255, 0), 1);
 
 				// bal egérgomb akció
 			/*	if(d(fingerTip1, fingerTip2) > clickDistance) {
@@ -80,8 +89,11 @@ void Click::FindFingers(IplImage *originalImg){
 			// verem (pontsorozat) kiürítése
 			cvClearSeq(points);
 		}
+	}catch (cv::Exception& e){
+		cout << "cink van 2" << endl;
+	}
 		
-		}
+}
 
 void Click::Hotkey(int key){
 	switch (key){

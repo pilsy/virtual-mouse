@@ -40,7 +40,7 @@ class Click {
 
 		int minArg(CvSeq* points);
 
-		void ConvexBurok(IplImage* grayImg);
+		void ConvexBurok(IplImage* grayImg, IplImage *originalImg);
 
 		void FindFingers(IplImage  *originalImg);
 
