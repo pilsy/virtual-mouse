@@ -11,16 +11,16 @@ class Motion {
 		int xMin, yMin;				// Minimumhelyek koordinátái
 		int width, height;
 		int X1, X2, Y1, Y2, R ;
-		int horizontal, vertical;
 		CvSeq* circles;	
 		CvScalar value;
 	public:
+		int horizontal, vertical;
 		int stop;		
 		bool startMove;
 
 		Motion(int w,int h){
 			X1=0, X2=0, Y1=0, Y2=0, R=0 ;
-			horizontal = 0, vertical = 0;
+			horizontal = 20, vertical = 20;
 			xMin = 200, yMin = 200;
 			width = w, height = h;
 			stop = -1;

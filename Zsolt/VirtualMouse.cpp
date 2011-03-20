@@ -1,8 +1,6 @@
 // VirtualMouse.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
-
 #include <iostream>
 #include <math.h>
 
@@ -32,7 +30,7 @@ int minArg(CvSeq* points) {
 	return min_i;
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int main()
 {
 	CvCapture* capture = cvCreateCameraCapture(0);
 	CvMemStorage* storage = cvCreateMemStorage();
