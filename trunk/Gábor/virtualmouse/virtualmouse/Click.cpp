@@ -51,7 +51,7 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 //					cvCircle(originalImg, point, 3, CV_RGB(0, 255, 0), 3); // a már kiritkított pontok megjelenítése
 				}
 
-				cvLine(originalImg, pointPrev, point, CV_RGB(0, 255, 0), 1); // konvex burok megjelenítése
+				//cvLine(originalImg, pointPrev, point, CV_RGB(0, 255, 0), 1); // konvex burok megjelenítése
 			}
 		}
 	}catch (cv::Exception& e){
@@ -76,7 +76,7 @@ void Click::FindFingers(IplImage *originalImg){
 				// kirajzolás: hüvelykujj kékkel, mutatóujj pirossal, a két pont távolsága sárgával
 				cvCircle(originalImg, fingerTip1, 3, CV_RGB(0, 0, 255), 3);
 				cvCircle(originalImg, fingerTip2, 3, CV_RGB(255, 0, 0), 3);
-				//cvLine(originalImg, fingerTip1, fingerTip2, CV_RGB(255, 255, 0), 1);
+				cvLine(originalImg, fingerTip1, fingerTip2, CV_RGB(255, 255, 0), 1);
 
 				// bal egérgomb akció
 			/*	if(d(fingerTip1, fingerTip2) > clickDistance) {
