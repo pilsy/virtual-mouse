@@ -13,7 +13,7 @@ a {
 body {
 	background: #CCC url(img/bg.gif) repeat-y fixed bottom center;
 	color: #333; margin: 20px 0;
-	text-align: center; font: normal 0.6em sans-serif,Arial;
+	text-align: center; font: normal 0.7em sans-serif,Arial;
 }
 .gfx a {
 	/*background: #F5F5F5 url(img/bright_pixel.gif) no-repeat; display: block; height: 240px;*/
@@ -40,7 +40,7 @@ body {
 	color: #888;
 	float: left;
 	padding-top: 4px;
-	width: 149px; height: 36px;
+	width: 119px; height: 36px;
 }
 .menu a span {
 	padding-left: 6px;
@@ -50,7 +50,7 @@ body {
 	color: #555;
 }
 .menu a#last {
-	width: 150px;
+	width: 120px;
 	border-right: none;
 }
 .container {
@@ -79,8 +79,7 @@ body {
 	background: #F5F5F5;
 	color: #666;
 } 
-#threshold{
-	position:relative;
-	margin-left: 40px;
-	width: 500px;
+.kep{
+border-left: 500px;
+margin: auto auto auto 15%; 
 }

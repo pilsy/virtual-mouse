@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="description" content="description"/>
+<meta name="keywords" content="keywords"/> 
+<meta name="author" content="Horváth Zsolt" /> 
+<link rel="stylesheet" type="text/css" href="default.css"/>
+<title>Virtual Mouse</title>
+</head>
+<body>
+<div class="main">
+	<div class="container">
+		<div class="gfx"><a href="index.html"><span></span></a></div>
+		<div class="menu">
+			<a href="index.html"><span>Kezdőlap</span></a>
+			<a href="feladat.html"><span>Feladat</span></a>
+			<a href="megoldas.html"><span>Megoldás</span></a>
+			<a href="algterv.html"><span>Algoritmus terv</span></a>				
+			<a href="hivatkozasok.html" id="last"><span>Hivatkozások</span></a>
+		</div>
+		<div class="content">
+			<div class="item">
+				<h1>Előfeldolgozás</h1>
+				<p>
+				<OL>
+					 <LI><p>A kamera paramétereinek beállítása</p></LI>
+					 <LI><p>Színes kép --> szürkeárnyalatos kép konverzió</p></LI>
+					 <LI><p>Gauss szűrés alkalmazása</p></LI>
+					 <LI><p>Küszöbölés</p></LI>
+					 <LI><p>Kéz detektálása</p>
+						 <OL TYPE=a>
+							<LI>A kéz pixelek észlelése terület kizárással</LI>
+							<br>
+							<p>
+							<img id="1" alt="1" width="400" height="159" src="img/1.jpg"/>
+							</p>
+							<br>
+							<p>
+							<img id="2" alt="2" width="400" height="159" src="img/2.jpg"/>
+							</p>
+							<br>
+							<LI>A kéz pixelek észlelése bőrdetektálással</LI>
+							<p>
+							<img id="3" alt="3" width="400" height="232" src="img/3.jpg"/>
+							</p>
+						 </OL>
+					 </LI>
+				</OL>
+				</p>
+			</div>
+			<div class="item">
+				<h1>Kurzor mozgatása</h1>
+				<p>
+				<OL>
+				<LI><p>Globális minimum y koordinátájú pont megkeresése</p></LI>
+				<LI><p>Kurzor koordinátáinak beállítása</p></LI>
+				</OL>
+				</p>
+				<p>
+				<img id="5" alt="5" class="kep" width="400" height="159" src="img/threshold.jpg"/>
+				</p>
+				<br>
+			</div>
+			<div class="item">
+				<h1>Ujjmozgás detektálás</h1>
+				<p>
+				<OL>
+				<LI><p>Kontúrok és konvex burok keresése</p></LI>
+				<p>
+				<img id="4" alt="4" width="200" height="157" src="img/4.jpg"/>
+				</p>
+				<LI><p>Klikkelések </p></LI>
+				<p>
+				<img id="6" alt="6" width="200" height="157" src="img/6.jpg"/>
+				</p>
+				</OL>
+				</p>
+				<br>
+				
+			</div>
+		</div>
+		<div class="footer">&copy; 2011 Számítógépes Látás. Design by <a href="http://www.arcsin.se">Arcsin</a></div>
+	</div>	
+</div>
+</body>
+</html>
