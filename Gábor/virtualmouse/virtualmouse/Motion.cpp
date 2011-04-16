@@ -1,10 +1,18 @@
 #include "Motion.h"
 #include <cv.h>
 #include <iostream>
+#include "Math.h"
 
 void Motion::getMin(CvPoint fingerTip2){
-	xMin=fingerTip2.x;
+	if(xMin != NULL) xMinPrev = xMin;
+	if(yMin != NULL) yMinPrev = yMin;
+
+	xMin = fingerTip2.x;
+	if(xMinPrev != NULL && abs(xMin - xMinPrev) < 3) xMin = xMinPrev; // korrigálás, ha kell (hogy ne ugráljon x irányban)
+
 	yMin=fingerTip2.y;
+	if(yMinPrev != NULL && abs(yMin - yMinPrev) < 3) yMin = yMinPrev; // korrigálás, ha kell (hogy ne ugráljon y irányban)
+
 }
 
 void Motion::GetDesktopResolution(int& horizontal, int& vertical){
@@ -30,10 +38,8 @@ void Motion::MoveTheMouse(){
 
 }
 
-void Motion::DrawKereszt(IplImage  *frame){
-	/*
-		kereszt kirajzolása
-		*/
+/*void Motion::DrawKereszt(IplImage  *frame){
+		// kereszt kirajzolása
 		if (xMin > 5 && yMin > 5 && (xMin < width-5 && yMin < height -5 )){
 		value.val[0] = 0;
 		value.val[1] = 0;
@@ -57,7 +63,7 @@ void Motion::DrawKereszt(IplImage  *frame){
 		cvSet2D(frame, yMin,xMin-4,value);
 		}
 
-}
+}*/
 
 void Motion::Hotkey(int key){
 	switch (key){

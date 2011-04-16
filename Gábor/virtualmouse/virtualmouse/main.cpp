@@ -143,8 +143,8 @@ int main( int argc, char **argv )
 		*/
 
 		
-		cvThreshold(hue, hue, 50, 255, CV_THRESH_BINARY_INV);
-		cvThreshold(sat, sat, 40, 255, CV_THRESH_BINARY);
+		cvThreshold(hue, hue, 20, 255, CV_THRESH_BINARY_INV);
+		cvThreshold(sat, sat, 10, 255, CV_THRESH_BINARY);
 
 		cvAnd(hue, sat, imageSkinPixels);
 		cvAnd(imageSkinPixels, val, imageSkinPixels);
