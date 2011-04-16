@@ -8,6 +8,7 @@
 class Motion {
 
 	private:
+		int xMinPrev, yMinPrev;
 		int xMin, yMin;				// Minimumhelyek koordinátái
 		int width, height;
 		int X1, X2, Y1, Y2, R ;
