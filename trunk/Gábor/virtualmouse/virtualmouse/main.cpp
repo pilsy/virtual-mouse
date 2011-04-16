@@ -73,7 +73,7 @@ int main( int argc, char **argv )
 
 
 		cvCvtColor(frame, grey, CV_BGR2GRAY);
-		cvSmooth(grey, segment, CV_GAUSSIAN, 11, 11, 4, 2);
+		//cvSmooth(grey, segment, CV_GAUSSIAN, 11, 11, 4, 2);
 		//cvThreshold(grey, segment, 0, 255, CV_THRESH_OTSU);
 
 		/*
@@ -102,19 +102,19 @@ int main( int argc, char **argv )
 
 			}
 		}
-		
+		*/
 
 		cvCvtColor(frame, hsvImg, CV_BGR2HSV);
 
 		cvSplit(hsvImg, hue, sat, val, 0);
 
-
+		/*
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++){
 
 				value = cvGet2D(hue,i,j);
 
-				if (value.val[0] > 0 && value.val[0] < 50){
+				if (value.val[0] > 10 && value.val[0] < 50){
 
 					value.val[0] = 255;
 
@@ -140,21 +140,20 @@ int main( int argc, char **argv )
 				}
 			}
 		}
+		*/
 
-		//cvThreshold(hue, hue, 40, 255, CV_THRESH_BINARY_INV);
-		//cvThreshold(hue, hue, 10, 255, CV_THRESH_BINARY);
-
-		//cvThreshold(sat, sat, 50, 255, CV_THRESH_BINARY);
+		
+		cvThreshold(hue, hue, 50, 255, CV_THRESH_BINARY_INV);
+		cvThreshold(sat, sat, 40, 255, CV_THRESH_BINARY);
 
 		cvAnd(hue, sat, imageSkinPixels);
 		cvAnd(imageSkinPixels, val, imageSkinPixels);
 
-		cvSmooth(imageSkinPixels, imageSkinPixels, CV_GAUSSIAN, 11, 11, 2, 0);
-		cvThreshold(imageSkinPixels, imageSkinPixels, 64, 255, CV_THRESH_BINARY);
+		cvSmooth(imageSkinPixels, imageSkinPixels, CV_GAUSSIAN, 11, 11, 2, 1);
+		cvThreshold(imageSkinPixels, imageSkinPixels, 80, 255, CV_THRESH_BINARY);
 
-		cvShowImage("Skin Pixels", imageSkinPixels);
-		*/
-
+		
+		/*
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++){
 
@@ -163,7 +162,7 @@ int main( int argc, char **argv )
 				r = value.val[2] / (value.val[0] + value.val[1] + value.val[2]);
 				g = value.val[1] / (value.val[0] + value.val[1] + value.val[2]);
 
-				if (r > 0.39 && r < 0.5 && g > 0.28 && g < 0.38){
+				if (r > 0.39 && r < 0.52 && g > 0.28 && g < 0.38){
 
 					value.val[0] = 255;
 
@@ -177,8 +176,8 @@ int main( int argc, char **argv )
 
 			}
 		}
-
-		cvDilate(imageSkinPixels, imageSkinPixels, NULL, 3);
+		*/
+		cvDilate(imageSkinPixels, imageSkinPixels, NULL, 4);
 		cvErode(imageSkinPixels, imageSkinPixels, NULL, 1);
 
 		cvSmooth(imageSkinPixels, imageSkinPixels, CV_MEDIAN, 7, 7);
