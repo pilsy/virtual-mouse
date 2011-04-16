@@ -2,24 +2,9 @@
 #include <cv.h>
 #include <iostream>
 
-void Motion::getMin(IplImage* segment){
-	CvScalar value;
-
-	for ( int i = 0; i < height ; i++ ){
-
-		for ( int j = 0; j < width; j++ ){
-
-			value = cvGet2D(segment,i,j);
-
-			if (value.val[0] == 255){
-				xMin = j;
-				yMin = i;
-				return;
-			}
-
-		}
-
-	}
+void Motion::getMin(CvPoint fingerTip2){
+	xMin=fingerTip2.x;
+	yMin=fingerTip2.y;
 }
 
 void Motion::GetDesktopResolution(int& horizontal, int& vertical){

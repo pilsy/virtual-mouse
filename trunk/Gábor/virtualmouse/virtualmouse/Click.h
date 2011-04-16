@@ -16,12 +16,13 @@ class Click {
 		CvSeq* points;
 		int dXY, dX, dY;
 		int min;
-		CvPoint fingerTip1;
-		CvPoint fingerTip2;
+		
 		int clickDistance;
 		CvMemStorage* storange;
 	public:
-		
+		CvPoint fingerTip1;
+		CvPoint fingerTip2;
+
 		Click(CvMemStorage* storange){
 			this->storange=storange;
 			contours=NULL;

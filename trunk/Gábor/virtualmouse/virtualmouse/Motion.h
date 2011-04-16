@@ -19,17 +19,17 @@ class Motion {
 		bool startMove;
 
 		Motion(int w,int h){
-			X1=0, X2=0, Y1=0, Y2=0, R=0 ;
+			X1=0, X2=w, Y1=0, Y2=h, R=0 ;
 			horizontal = 20, vertical = 20;
 			xMin = 200, yMin = 200;
-			width = w, height = h;
+			width = w-10, height = h-10;
 			stop = -1;
 			startMove = false;
 		}
 		~Motion(){
 		}
 
-		void getMin(IplImage* segment);
+		void getMin(CvPoint fingerTip2);
 
 		void GetDesktopResolution(int& horizontal, int& vertical);
 

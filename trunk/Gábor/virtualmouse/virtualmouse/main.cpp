@@ -9,7 +9,7 @@
 
 using namespace std;
 
-static int width = 640, height = 480;
+static int width = 320, height = 240;
 int horizontal = 0, vertical = 0;
 
 CvMemStorage* storage = cvCreateMemStorage(0);
@@ -188,7 +188,7 @@ int main( int argc, char **argv )
 
 
 			if (motion->startMove){
-
+				motion->getMin(click->fingerTip2);
 				motion->MoveTheMouse();
 			}
 
