@@ -35,13 +35,7 @@ class Motion {
 
 		void MoveTheMouse();
 
-		void GetCircleInfo();
-
 		void DrawKereszt(IplImage  *frame);
-
-		void FindCircle(IplImage* segment,CvMemStorage* storage);
-
-		void CutRegion(IplImage *segment);
 
 		void Hotkey(int key);
 

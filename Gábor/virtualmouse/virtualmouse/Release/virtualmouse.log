@@ -1,12 +1,39 @@
-﻿Build started 2011.03.20. 19:09:35.
+﻿Build started 2011.04.16. 20:40:00.
      1>Project "E:\Visual studio projects\VirtualMouse\Gábor\virtualmouse\virtualmouse\virtualmouse.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\virtualmouse.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Click.cpp
-         Click.cpp
-     1>Click.cpp(57): warning C4101: 'e' : unreferenced local variable
-     1>Click.cpp(92): warning C4101: 'e' : unreferenced local variable
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(126): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(151): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _stricmp. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(246) : see declaration of 'stricmp'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(179): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(191): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(193): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(194): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(201): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _stricmp. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(246) : see declaration of 'stricmp'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(252): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _stricmp. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(246) : see declaration of 'stricmp'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(263): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _stricmp. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(246) : see declaration of 'stricmp'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(268): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(354): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _stricmp. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(246) : see declaration of 'stricmp'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(362): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _stricmp. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(246) : see declaration of 'stricmp'
+     1>d:\opencv2.1\include\opencv\cvvidsurv.hpp(372): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
+     1>main.cpp(163): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(164): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(36): warning C4101: 'value2' : unreferenced local variable
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Visual studio projects\VirtualMouse\Gábor\virtualmouse\Release\virtualmouse.exe" /INCREMENTAL:NO /NOLOGO cv210.lib cxcore210.lib highgui210.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\virtualmouse.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\Visual studio projects\VirtualMouse\Gábor\virtualmouse\Release\virtualmouse.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Visual studio projects\VirtualMouse\Gábor\virtualmouse\Release\virtualmouse.lib" /MACHINE:X86 Release\Click.obj
          Release\main.obj
@@ -23,4 +50,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.52
+Time Elapsed 00:00:01.54

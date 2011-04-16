@@ -32,7 +32,7 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 		// csak akkor számolunk konvex burkot
 		
 
-		if(cvContourArea(contours) > 1000) {
+		if(cvContourArea(contours) > 10000) {
 			convexHull = cvConvexHull2(contours);
 			hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
 		}
@@ -48,10 +48,10 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 				// csak azok a pontok maradnak meg, amelyek az alábbi feltételt kielégítik
 				if((d(pointPrev, point) >= dXY) && (abs(pointPrev.x - point.x) >= dX) && (abs(pointPrev.y - point.y) >= dY)) {
 					cvSeqPush(points, &point); // a jó pontokat lerakjuk egy verembe (CvSeq használható veremként is)
-//					cvCircle(originalImg, point, 3, CV_RGB(0, 255, 0), 3); // a már kiritkított pontok megjelenítése
+					cvCircle(originalImg, point, 3, CV_RGB(0, 255, 0), 3); // a már kiritkított pontok megjelenítése
 				}
 
-				//cvLine(originalImg, pointPrev, point, CV_RGB(0, 255, 0), 1); // konvex burok megjelenítése
+				cvLine(originalImg, pointPrev, point, CV_RGB(0, 255, 0), 1); // konvex burok megjelenítése
 			}
 		}
 	}catch (cv::Exception& e){
