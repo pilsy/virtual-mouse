@@ -25,18 +25,23 @@ int Click::minArg(CvSeq* points){
 
 void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 	try{
-	// kontúr megkeresése
-		cvFindContours(grayImg, this->storange, &contours, 88, CV_RETR_CCOMP);
 
-		// ha a kontúr által körbezárt terület nagyobb, mint 1000 (azaz biztos, hogy a kezet találtuk meg),
-		// csak akkor számolunk konvex burkot
-		
 
-		if(cvContourArea(contours) > 3000) {
-			convexHull = cvConvexHull2(contours);
-			hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
-		}
-		
+		cvFindContours( grayImg, this->storange, &contours, sizeof(CvContour),
+           CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
+
+		cout << contours->total << endl;
+
+        for( ; contours != 0; contours = contours->h_next )
+        {
+           if(cvContourArea(contours) > 8000) {
+				convexHull = cvConvexHull2(contours);
+				hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
+				break;
+		   }
+        }
+
+
 		
 		// ha létezik a konvex burok (azaz nem csak a fekete hátteret látjuk, hanem elõtte van a kezünk), akkor...
 		if(hullCount > 0) {
