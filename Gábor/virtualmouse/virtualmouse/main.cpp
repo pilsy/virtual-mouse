@@ -152,9 +152,11 @@ int main( int argc, char **argv )
 
 		motion->Hotkey(key);
 
-		
+			if(motion->startClick){
+				click->Clicking(motion->startMove);
+			}	
+
 			if (motion->startMove){
-				click->Clicking();
 				motion->getMin(click->fingerTip2);
 				motion->MoveTheMouse();
 			}

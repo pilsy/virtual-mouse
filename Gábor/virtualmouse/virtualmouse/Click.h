@@ -4,6 +4,7 @@
 
 #include <cxcore.h>
 #include <highgui.h>
+#include <time.h>
 
 class Click {
 
@@ -20,6 +21,7 @@ class Click {
 		int clickDistance;
 		CvMemStorage* storange;
 		bool boolTime;
+		bool balLe;
 	public:
 		CvPoint fingerTip1;
 		CvPoint fingerTip2;
@@ -36,6 +38,7 @@ class Click {
 			clickDistance = 175;
 			segment = true;
 			boolTime=true;
+			balLe=false;
 		}
 		~Click(){
 		
@@ -49,7 +52,7 @@ class Click {
 
 		void FindFingers(IplImage  *originalImg);
 
-		void Clicking();
+		void Clicking(bool);
 
 		void Hotkey(int key);
 };
