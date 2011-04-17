@@ -31,7 +31,7 @@ body {
 	border-color: #E4E4E4 #CFCFCF #CCC #CFCFCF; 
 	margin: 20px auto 4px auto; 
 	text-align: left;
-	width: 620px; 
+	width: 700px; 
 }
 .menu a {
 	background: #EEE;
@@ -40,7 +40,7 @@ body {
 	color: #888;
 	float: left;
 	padding-top: 4px;
-	width: 119px; height: 36px;
+	width: 111px; height: 36px;
 }
 .menu a span {
 	padding-left: 6px;
@@ -82,4 +82,23 @@ body {
 .kep{
 border-left: 500px;
 margin: auto auto auto 15%; 
+}
+
+#nyolc{
+margin-left:5%;
+}
+#kilenc{
+margin-left:20%;
+}
+.center{
+margin-left:35%;
+}
+.center1{
+margin-left:25%;
+}
+.center2{
+margin-left:15%;
+}
+.center3{
+margin-left:38%;
 }
