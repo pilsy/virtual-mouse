@@ -16,9 +16,10 @@ class Click {
 		CvSeq* points;
 		int dXY, dX, dY;
 		int min;
-		
+		time_t distanceTime, currentTime;
 		int clickDistance;
 		CvMemStorage* storange;
+		bool boolTime;
 	public:
 		CvPoint fingerTip1;
 		CvPoint fingerTip2;
@@ -34,6 +35,7 @@ class Click {
 			min=0;
 			clickDistance = 175;
 			segment = true;
+			boolTime=true;
 		}
 		~Click(){
 		
@@ -46,6 +48,8 @@ class Click {
 		void ConvexBurok(IplImage* grayImg, IplImage *originalImg);
 
 		void FindFingers(IplImage  *originalImg);
+
+		void Clicking();
 
 		void Hotkey(int key);
 };
