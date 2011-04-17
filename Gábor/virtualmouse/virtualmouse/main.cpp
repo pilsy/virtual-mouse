@@ -1,7 +1,4 @@
-#include <cv.h>
-#include <cvaux.h>
-#include <cxcore.h>
-#include <highgui.h>
+#include <cv.h>p
 #include <iostream>
 
 #include "Motion.h"
@@ -9,7 +6,7 @@
 
 using namespace std;
 
-static int width = 320, height = 240;
+static int width = 640, height = 480;
 int horizontal = 0, vertical = 0;
 
 CvMemStorage* storage = cvCreateMemStorage(0);
@@ -39,7 +36,7 @@ int main( int argc, char **argv )
 	CvScalar value;
 	CvScalar value2;
 	float r,g;
-	int S1 = 50, S2 = 180, V1 = 120, V2 = 230;
+	int S1 = 38, S2 = 180, V1 = 56, V2 = 230;
 	//CvScalar  hsv_min = cvScalar(0, 30, 80, 0);
 	//CvScalar  hsv_max = cvScalar(20, 150, 255, 0);
 
@@ -60,9 +57,9 @@ int main( int argc, char **argv )
     cvNamedWindow( "Original", CV_WINDOW_AUTOSIZE );
 	cvNamedWindow( "Segment", CV_WINDOW_AUTOSIZE );
 
-	cvCreateTrackbar("Smin", "Segment", &S1, 100, T1);
-	cvCreateTrackbar("Smax", "Segment", &S2, 250, T1);
-	cvCreateTrackbar("Vmin", "Segment", &V1, 180, T1);
+	cvCreateTrackbar("Smin", "Segment", &S1, 120, T1);
+	cvCreateTrackbar("Smax", "Segment", &S2, 255, T1);
+	cvCreateTrackbar("Vmin", "Segment", &V1, 220, T1);
 	cvCreateTrackbar("Vmax", "Segment", &V2, 255, T1);
 
 	grey  = cvCreateImage(size, IPL_DEPTH_8U, 1);
@@ -84,22 +81,20 @@ int main( int argc, char **argv )
         if( !frame ) break;
 
 
-		cvCvtColor(frame, grey, CV_BGR2GRAY);
 		//cvSmooth(grey, segment, CV_GAUSSIAN, 11, 11, 4, 2);
-		//cvThreshold(grey, segment, 0, 255, CV_THRESH_OTSU);
 
 
 		if (click->segment){
 
 			CvScalar  hsv_min = cvScalar(0, S1, V1, 0);
-			CvScalar  hsv_max = cvScalar(24, S2, V2, 0);
+			CvScalar  hsv_max = cvScalar(20, S2, V2, 0);
 
 			cvCvtColor(frame, hsvImg, CV_BGR2HSV);
 			cvSplit(hsvImg, hue, sat, val, 0);
 
 			cvInRangeS (hsvImg, hsv_min, hsv_max, hsv_mask);
 
-			cvDilate(hsv_mask, hsv_mask, NULL, 5);
+			//cvDilate(hsv_mask, hsv_mask, NULL, 1);
 			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 27, 0, 0, 0 );
 
 			//cvCanny(hsv_mask, edges, 1, 3, 5);
@@ -123,18 +118,19 @@ int main( int argc, char **argv )
 			for (int i = 0; i < height; i++){
 				for (int j = 0; j < width; j++){
 
-					value = cvGet2D(frame,i,j);
 
+
+
+					value = cvGet2D(frame,i,j);
 					r = value.val[2] / (value.val[0] + value.val[1] + value.val[2]);
 					g = value.val[1] / (value.val[0] + value.val[1] + value.val[2]);
 
-					if (r > 0.35 && r < 0.55 && g > 0.26 && g < 0.4){
+					if (r > 0.35 && r < 0.55 && g > 0.25 && g < 0.4){
 
 						value.val[0] = 255;
 
 						cvSet2D(hsv_mask, i, j, value);
 					} else {
-
 						value.val[0] = 0;
 
 						cvSet2D(hsv_mask, i, j, value);
@@ -143,8 +139,10 @@ int main( int argc, char **argv )
 				}
 			}
 
-			cvDilate(hsv_mask, hsv_mask, NULL, 4);
-			cvErode(hsv_mask, hsv_mask, NULL, 3);
+			//cvDilate(hsv_mask, hsv_mask, NULL, 3);
+			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 25, 0, 0, 0 );
+			//cvDilate(hsv_mask, hsv_mask, NULL, 1);
+			//cvErode(hsv_mask, hsv_mask, NULL, 1);
 		}
 
 
