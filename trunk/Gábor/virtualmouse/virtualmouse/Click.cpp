@@ -33,7 +33,7 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 
         for( ; contours != 0; contours = contours->h_next )
         {
-           if(cvContourArea(contours) > 14000) {
+           if(cvContourArea(contours) > 8000) {
 				convexHull = cvConvexHull2(contours);
 				hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
 				break;
@@ -135,29 +135,27 @@ void Click::Hotkey(int key){
 	}
 }
 
-void Click::Clicking(){
+void Click::Clicking(bool startMove){
 	cout<<d(fingerTip1, fingerTip2)<<endl;
-	if(d(fingerTip1, fingerTip2) > clickDistance) {
+	if(d(fingerTip1, fingerTip2) >= clickDistance) {
 		mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-	//	if(boolTime){
-		//	time(&distanceTime);
-		//	boolTime=false;
-		//	startMove=false;
-		//}
+		if(boolTime){
+			time(&distanceTime);
+			boolTime=false;
+			startMove=false;
+			balLe=true;
+		}
 			
-		/*
-			
-				if (difftime(time(&currentTime),distanceTime)>=2){
-					startMove=true;
-					boolTime=true;
-					
-				}*/
 	} 
 	
-				
+	if (difftime(time(&currentTime),distanceTime)>=2 && balLe){
+			startMove=true;
+			boolTime=true;
+					
+		}			
 
-	if(d(fingerTip1, fingerTip2) < clickDistance){
+	if(d(fingerTip1, fingerTip2) < clickDistance && balLe){
 			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-			cout<<"keyup";
+			balLe=false;
 	}
 }

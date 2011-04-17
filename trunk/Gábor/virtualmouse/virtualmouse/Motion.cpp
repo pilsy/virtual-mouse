@@ -72,6 +72,7 @@ void Motion::Hotkey(int key){
 		break;
 	case 'p':
 		startMove = !startMove;
+		startClick=!startClick;
 		break;
 		}
 }
