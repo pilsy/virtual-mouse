@@ -1,0 +1,3 @@
+Horváth Zsolt 			33.3% - 
+Schnádenberger Gábor 		33.3% - 
+Varjas Viktor 			33.3% - dokumetáció, szegmentálás, implementáció, tesztelés
