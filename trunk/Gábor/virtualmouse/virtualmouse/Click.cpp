@@ -134,3 +134,30 @@ void Click::Hotkey(int key){
 		break;
 	}
 }
+
+void Click::Clicking(){
+	cout<<d(fingerTip1, fingerTip2)<<endl;
+	if(d(fingerTip1, fingerTip2) > clickDistance) {
+		mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+	//	if(boolTime){
+		//	time(&distanceTime);
+		//	boolTime=false;
+		//	startMove=false;
+		//}
+			
+		/*
+			
+				if (difftime(time(&currentTime),distanceTime)>=2){
+					startMove=true;
+					boolTime=true;
+					
+				}*/
+	} 
+	
+				
+
+	if(d(fingerTip1, fingerTip2) < clickDistance){
+			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+			cout<<"keyup";
+	}
+}
