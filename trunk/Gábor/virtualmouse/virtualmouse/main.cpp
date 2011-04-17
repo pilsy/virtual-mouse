@@ -161,9 +161,9 @@ int main( int argc, char **argv )
 		click->Hotkey(key);
 
 		cvShowImage( "Original", frame );
-		cvShowImage( "h", hue );
-		cvShowImage( "s", sat );
-		cvShowImage( "v", val );
+		//cvShowImage( "h", hue );
+		//cvShowImage( "s", sat );
+		//cvShowImage( "v", val );
 
         key = cvWaitKey( 1 );
     }
