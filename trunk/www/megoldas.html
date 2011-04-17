@@ -26,24 +26,53 @@
 				<h1>Megvalósítás</h1>
 				<p>
 				Olcsó webkamera segítségével, mely felülről figyeli a kéz gesztusait.
-				Kéz alapértelmezett állapota: mutató ujj előre felé, kinyújtott helyzetben. A kéz mozgása megfeleltethető az egérmutató mozgásának.
-				Bal klikk esemény: Hüvelyk ujj kinyitása egy bizonyos küszöb szög feletti állásba, a mutató ujjhoz képest. 
-				Bal gomb dupla kattintás esemény: Hüvelyk ujj kinyitása egy időintervallumon belül kétszer, a küszöb szög fölé.
-				Bal gomb nyomva tartás esemény: Hüvelyk ujj kinyitása a küszöb szög fölé és a szög fölött tartása egy meghatározott időn túl. 
-				Jobb klikk esemény: Az összes ujj kinyújtása. 
+			<OL>
+				<LI><b>Kéz alapértelmezett állapota: mutató ujj előre felé, kinyújtott helyzetben. A kéz mozgása megfeleltethető az egérmutató mozgásának.</b></LI>
+							</br>
+				<LI><b>Bal klikk esemény: Hüvelyk ujj kinyitása egy bizonyos küszöb szög feletti állásba, a mutató ujjhoz képest. </b></LI>
+							</br>
+				<LI><b>Bal gomb dupla kattintás esemény: Hüvelyk ujj kinyitása egy időintervallumon belül kétszer, a küszöb szög fölé.</b></LI>
+				</br>
+				<LI><b>Bal gomb nyomva tartás esemény: Hüvelyk ujj kinyitása a küszöb szög fölé és a szög fölött tartása egy meghatározott időn túl. </b></LI>
+				</br>
+				<LI><b>Jobb klikk esemény: Még nincs rá működő megoldás </b></LI>
+				</br>
+			</OL>
+				<p>A programozáshoz Microsoft Visual Studio 2010-et és OpenCV-t használunk (c++).</p>
+
 				</p>
+			</div>
+			<div class="item">
+				<h1>Algoritmusterv</h1>
+				<p>
+			<OL>
+				<LI><b>kamera inicializálása (felbontás, fps)</b></LI>
+							</br>
+				<LI><b>minden frame-re:</b></LI>
+							</br>
+				<OL  TYPE=a>
+					<LI><b>szegmentálás (2D normalizált szintéren alapuló, vagy HSV szintéren alapuló)</b></LI>
+					</br>
+					<LI><b>ujjhegyek meghatározása (kontúr és konvex burok segítségével)</b></LI>
+					</br>
+					<LI><b>kurzor új pozícióba mozgatása</b></LI>
+					</br>
+					<LI><b>ha a kézgesztusból következik: kattintás</b></LI>
+				</OL>
+				</br>
+				<LI><b>amíg a felhasználó le nem állítja a programot</b></LI>
+				</br>
+			</OL> 
+				</p>
+				<br>
 			</div>
 			<div class="item">
 				<h1>Megkötések</h1>
 				<p>
-				Fekete egérpad alkalmazása a zavaró árnyékok kiküszöbölése végett. Az téglalap alakú egérpad egy átlója mentén, két átellenes csúcspontjában egy-egy kör alakzat.
 				Megfelelő megvilágítás biztosítása, természetes fény, vagy mesterséges fény segítségével. 
 				Kamera elhelyezése egy meghatározott távolságban a kéztől. 
 				</p>
 				<br>
-				<p>
-			<img id="threshold" alt="Threshold" class="kep" width="400 height="159" src="img/threshold.jpg"/>
-			</p>
 			</div>
 		</div>
 		<div class="footer">&copy; 2011 Számítógépes Látás. Design by <a href="http://www.arcsin.se">Arcsin</a></div>
