@@ -33,7 +33,7 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 
         for( ; contours != 0; contours = contours->h_next )
         {
-           if(cvContourArea(contours) > 9000) {
+           if(cvContourArea(contours) > 14000) {
 				convexHull = cvConvexHull2(contours);
 				hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
 				break;

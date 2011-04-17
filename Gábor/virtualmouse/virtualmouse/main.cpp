@@ -18,6 +18,10 @@ CvMemStorage* storage2 = cvCreateMemStorage(0);
 Motion *motion=new Motion(width,height);
 Click *click=new Click(storage2);
 
+void T1(int id){
+	id;
+}
+
 
 int main( int argc, char **argv )
 {
@@ -35,11 +39,9 @@ int main( int argc, char **argv )
 	CvScalar value;
 	CvScalar value2;
 	float r,g;
+	int S1 = 50, S2 = 180, V1 = 120, V2 = 230;
 	//CvScalar  hsv_min = cvScalar(0, 30, 80, 0);
 	//CvScalar  hsv_max = cvScalar(20, 150, 255, 0);
-
-	CvScalar  hsv_min = cvScalar(0, 80, 70, 0);
-	CvScalar  hsv_max = cvScalar(20, 190, 190, 0);
 
 	motion->GetDesktopResolution(motion->horizontal, motion->vertical);
  
@@ -56,7 +58,12 @@ int main( int argc, char **argv )
     }
  
     cvNamedWindow( "Original", CV_WINDOW_AUTOSIZE );
-	//cvNamedWindow( "Threshold", CV_WINDOW_AUTOSIZE );
+	cvNamedWindow( "Segment", CV_WINDOW_AUTOSIZE );
+
+	cvCreateTrackbar("Smin", "Segment", &S1, 100, T1);
+	cvCreateTrackbar("Smax", "Segment", &S2, 250, T1);
+	cvCreateTrackbar("Vmin", "Segment", &V1, 180, T1);
+	cvCreateTrackbar("Vmax", "Segment", &V2, 255, T1);
 
 	grey  = cvCreateImage(size, IPL_DEPTH_8U, 1);
 	edges = cvCreateImage(size, IPL_DEPTH_8U, 1);
@@ -83,6 +90,9 @@ int main( int argc, char **argv )
 
 
 		if (click->segment){
+
+			CvScalar  hsv_min = cvScalar(0, S1, V1, 0);
+			CvScalar  hsv_max = cvScalar(24, S2, V2, 0);
 
 			cvCvtColor(frame, hsvImg, CV_BGR2HSV);
 			cvSplit(hsvImg, hue, sat, val, 0);
@@ -138,9 +148,7 @@ int main( int argc, char **argv )
 		}
 
 
-	
-
-		cvShowImage("Skin Pixels", hsv_mask);
+		cvShowImage("Segment", hsv_mask);
 
 		motion->Hotkey(key);
 
@@ -160,7 +168,7 @@ int main( int argc, char **argv )
 
 		click->Hotkey(key);
 
-		cvShowImage( "Original", frame );
+		cvShowImage("Original", frame );
 		//cvShowImage( "h", hue );
 		//cvShowImage( "s", sat );
 		//cvShowImage( "v", val );
