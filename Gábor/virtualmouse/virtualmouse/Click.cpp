@@ -30,11 +30,10 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 		cvFindContours( grayImg, this->storange, &contours, sizeof(CvContour),
            CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
 
-		cout << contours->total << endl;
 
         for( ; contours != 0; contours = contours->h_next )
         {
-           if(cvContourArea(contours) > 8000) {
+           if(cvContourArea(contours) > 9000) {
 				convexHull = cvConvexHull2(contours);
 				hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
 				break;
@@ -125,6 +124,13 @@ void Click::Hotkey(int key){
 		break;
 	case 121:// y (dec dY) 
 		dY--; cout << "dXY: " << dXY << ", dX: " << dX << ", dY: " << dY << endl;
+		break;
+	case 114:// r 
+		this->segment = ! this->segment;
+		if (this->segment)
+			cout << "HSV segment" <<endl;
+		else
+			cout << "2D normalized segment" <<endl;
 		break;
 	}
 }

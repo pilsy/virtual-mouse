@@ -22,6 +22,7 @@ class Click {
 	public:
 		CvPoint fingerTip1;
 		CvPoint fingerTip2;
+		bool segment;
 
 		Click(CvMemStorage* storange){
 			this->storange=storange;
@@ -32,6 +33,7 @@ class Click {
 			dXY = 30, dX = 5, dY = 5;
 			min=0;
 			clickDistance = 175;
+			segment = true;
 		}
 		~Click(){
 		
