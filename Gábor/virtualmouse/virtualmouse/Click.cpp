@@ -143,12 +143,12 @@ void Click::Clicking(bool startMove){
 			time(&distanceTime);
 			boolTime=false;
 			startMove=false;
-			balLe=true;
-		}
 			
+		}
+			balLe=true;
 	} 
 	
-	if (difftime(time(&currentTime),distanceTime)>=2 && balLe){
+	if (difftime(time(&currentTime),distanceTime)>=1 && balLe){
 			startMove=true;
 			boolTime=true;
 					
