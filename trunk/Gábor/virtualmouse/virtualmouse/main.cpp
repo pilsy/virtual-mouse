@@ -9,7 +9,7 @@
 
 using namespace std;
 
-static int width = 320, height = 240;
+static int width = 640, height = 480;
 int horizontal = 0, vertical = 0;
 
 CvMemStorage* storage = cvCreateMemStorage(0);
@@ -35,13 +35,18 @@ int main( int argc, char **argv )
 	CvScalar value;
 	CvScalar value2;
 	float r,g;
+	//CvScalar  hsv_min = cvScalar(0, 30, 80, 0);
+	//CvScalar  hsv_max = cvScalar(20, 150, 255, 0);
+
+	CvScalar  hsv_min = cvScalar(0, 80, 70, 0);
+	CvScalar  hsv_max = cvScalar(20, 190, 190, 0);
 
 	motion->GetDesktopResolution(motion->horizontal, motion->vertical);
  
 
     capture = cvCaptureFromCAM( 1 );
 
-	cvSetCaptureProperty(capture,CV_CAP_PROP_FPS,10);
+	cvSetCaptureProperty(capture,CV_CAP_PROP_FPS,30);
 	cvSetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH,width);
 	cvSetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT,height);
 
@@ -76,126 +81,79 @@ int main( int argc, char **argv )
 		//cvSmooth(grey, segment, CV_GAUSSIAN, 11, 11, 4, 2);
 		//cvThreshold(grey, segment, 0, 255, CV_THRESH_OTSU);
 
-		/*
-		cvCvtColor(frame, HSV, CV_RGB2HSV);
-		
-		cvSplit(HSV, hue, sat, val, 0);
 
+		if (click->segment){
 
+			cvCvtColor(frame, hsvImg, CV_BGR2HSV);
+			cvSplit(hsvImg, hue, sat, val, 0);
 
-		for (int i = 0; i < height; i++){
-			for (int j = 0; j < width; j++){
+			cvInRangeS (hsvImg, hsv_min, hsv_max, hsv_mask);
 
-				value = cvGet2D(hue,i,j);
-				value2 = cvGet2D(val,i,j);
+			cvDilate(hsv_mask, hsv_mask, NULL, 5);
+			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 27, 0, 0, 0 );
 
-				//cout << "1(" << value.val[0] << ")" << endl;
+			//cvCanny(hsv_mask, edges, 1, 3, 5);
 
-				if (value.val[0] > 30 && value.val[0] < 40 && value2.val[0] > 120){
+			/*
+			cvCvtColor(frame, hsvImg, CV_BGR2HSV);
+			cvSplit(hsvImg, hue, sat, val, 0);
 
-					value.val[0] = 255;
-					cvSet2D(hsv_mask, i, j, value);
-				} else {
-					value.val[0] = 0;
-					cvSet2D(hsv_mask, i, j, value);
-				}
+			cvThreshold(hue, hue, 36, 255, CV_THRESH_BINARY_INV);
+			cvThreshold(sat, sat, 50, 255, CV_THRESH_BINARY);
+			cvThreshold(val, val, 60, UCHAR_MAX, CV_THRESH_BINARY);
 
-			}
-		}
-		*/
+			cvAnd(hue, sat, imageSkinPixels);
+			cvAnd(imageSkinPixels, val, imageSkinPixels);
 
-		cvCvtColor(frame, hsvImg, CV_BGR2HSV);
+			cvSmooth(imageSkinPixels, imageSkinPixels, CV_GAUSSIAN, 11, 11, 2, 1);
+			cvThreshold(imageSkinPixels, imageSkinPixels, 80, 255, CV_THRESH_BINARY);
+			*/
+		} else {
 
-		cvSplit(hsvImg, hue, sat, val, 0);
+			for (int i = 0; i < height; i++){
+				for (int j = 0; j < width; j++){
 
-		/*
-		for (int i = 0; i < height; i++){
-			for (int j = 0; j < width; j++){
+					value = cvGet2D(frame,i,j);
 
-				value = cvGet2D(hue,i,j);
+					r = value.val[2] / (value.val[0] + value.val[1] + value.val[2]);
+					g = value.val[1] / (value.val[0] + value.val[1] + value.val[2]);
 
-				if (value.val[0] > 10 && value.val[0] < 50){
+					if (r > 0.35 && r < 0.55 && g > 0.26 && g < 0.4){
 
-					value.val[0] = 255;
+						value.val[0] = 255;
 
-					cvSet2D(hue, i, j, value);
-				} else {
+						cvSet2D(hsv_mask, i, j, value);
+					} else {
 
-					value.val[0] = 0;
+						value.val[0] = 0;
 
-					cvSet2D(hue, i, j, value);
-				}
+						cvSet2D(hsv_mask, i, j, value);
+					}
 
-
-				value = cvGet2D(sat,i,j);
-
-				if (value.val[0] > 23 && value.val[0] < 60){
-
-					value.val[0] = 255;
-					cvSet2D(sat, i, j, value);
-				} else {
-
-					value.val[0] = 0;
-					cvSet2D(sat, i, j, value);
 				}
 			}
+
+			cvDilate(hsv_mask, hsv_mask, NULL, 4);
+			cvErode(hsv_mask, hsv_mask, NULL, 3);
 		}
-		*/
 
-		
-		cvThreshold(hue, hue, 20, 255, CV_THRESH_BINARY_INV);
-		cvThreshold(sat, sat, 10, 255, CV_THRESH_BINARY);
 
-		cvAnd(hue, sat, imageSkinPixels);
-		cvAnd(imageSkinPixels, val, imageSkinPixels);
+	
 
-		cvSmooth(imageSkinPixels, imageSkinPixels, CV_GAUSSIAN, 11, 11, 2, 1);
-		cvThreshold(imageSkinPixels, imageSkinPixels, 80, 255, CV_THRESH_BINARY);
-
-		
-		/*
-		for (int i = 0; i < height; i++){
-			for (int j = 0; j < width; j++){
-
-				value = cvGet2D(frame,i,j);
-
-				r = value.val[2] / (value.val[0] + value.val[1] + value.val[2]);
-				g = value.val[1] / (value.val[0] + value.val[1] + value.val[2]);
-
-				if (r > 0.39 && r < 0.52 && g > 0.28 && g < 0.38){
-
-					value.val[0] = 255;
-
-					cvSet2D(imageSkinPixels, i, j, value);
-				} else {
-
-					value.val[0] = 0;
-
-					cvSet2D(imageSkinPixels, i, j, value);
-				}
-
-			}
-		}
-		*/
-		cvDilate(imageSkinPixels, imageSkinPixels, NULL, 4);
-		cvErode(imageSkinPixels, imageSkinPixels, NULL, 1);
-
-		cvSmooth(imageSkinPixels, imageSkinPixels, CV_MEDIAN, 7, 7);
-
-		cvShowImage("Skin Pixels", imageSkinPixels);
+		cvShowImage("Skin Pixels", hsv_mask);
 
 		motion->Hotkey(key);
 
 
 			if (motion->startMove){
-				motion->getMin(click->fingerTip2);
+
 				motion->MoveTheMouse();
 			}
 
 	
 			//motion->DrawKereszt(frame);
 		
-			click->ConvexBurok(imageSkinPixels, frame);
+			click->ConvexBurok(hsv_mask, frame);
 			click->FindFingers(frame);
 
 		
@@ -203,7 +161,9 @@ int main( int argc, char **argv )
 		click->Hotkey(key);
 
 		cvShowImage( "Original", frame );
-		//cvShowImage( "Threshold", segment );
+		cvShowImage( "h", hue );
+		cvShowImage( "s", sat );
+		cvShowImage( "v", val );
 
         key = cvWaitKey( 1 );
     }
