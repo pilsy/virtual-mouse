@@ -19,6 +19,7 @@ class Motion {
 		int stop;		
 		bool startMove;
 		bool startClick;
+		bool left;
 
 		Motion(int w,int h){
 			X1=0, X2=w, Y1=0, Y2=h, R=0 ;
@@ -28,6 +29,7 @@ class Motion {
 			stop = -1;
 			startMove = false;
 			startClick=false;
+			left = false;
 		}
 		~Motion(){
 		}

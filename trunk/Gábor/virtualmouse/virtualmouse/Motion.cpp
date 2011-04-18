@@ -3,15 +3,22 @@
 #include <iostream>
 #include "Math.h"
 
+using namespace std;
+
 void Motion::getMin(CvPoint fingerTip2){
 	if(xMin != NULL) xMinPrev = xMin;
 	if(yMin != NULL) yMinPrev = yMin;
 
-	xMin = fingerTip2.x;
-	if(xMinPrev != NULL && abs(xMin - xMinPrev) < 3) xMin = xMinPrev; // korrigálás, ha kell (hogy ne ugráljon x irányban)
+	if (this->left){
+		xMin = 640 - fingerTip2.x;
+		if(xMinPrev != NULL && abs(xMin - xMinPrev) < 6) xMin = xMinPrev; // korrigálás, ha kell (hogy ne ugráljon x irányban)
+	} else {
+		xMin = fingerTip2.x;
+		if(xMinPrev != NULL && abs(xMin - xMinPrev) < 6) xMin = xMinPrev; // korrigálás, ha kell (hogy ne ugráljon x irányban)
+	}
 
 	yMin=fingerTip2.y;
-	if(yMinPrev != NULL && abs(yMin - yMinPrev) < 3) yMin = yMinPrev; // korrigálás, ha kell (hogy ne ugráljon y irányban)
+	if(yMinPrev != NULL && abs(yMin - yMinPrev) < 6) yMin = yMinPrev; // korrigálás, ha kell (hogy ne ugráljon y irányban)
 
 }
 
@@ -38,7 +45,7 @@ void Motion::MoveTheMouse(){
 
 }
 
-/*void Motion::DrawKereszt(IplImage  *frame){
+void Motion::DrawKereszt(IplImage  *frame){
 		// kereszt kirajzolása
 		if (xMin > 5 && yMin > 5 && (xMin < width-5 && yMin < height -5 )){
 		value.val[0] = 0;
@@ -63,7 +70,7 @@ void Motion::MoveTheMouse(){
 		cvSet2D(frame, yMin,xMin-4,value);
 		}
 
-}*/
+}
 
 void Motion::Hotkey(int key){
 	switch (key){
@@ -73,6 +80,15 @@ void Motion::Hotkey(int key){
 	case 'p':
 		startMove = !startMove;
 		startClick=!startClick;
+		break;
+	case 108:// l 
+		this->left = !this->left;
+
+		if (this->left){
+			cout << "Left handed mouse Enabled!" << endl;
+		} else {
+			cout << "Left handed mouse Disabled!" << endl;
+		}
 		break;
 		}
 }
