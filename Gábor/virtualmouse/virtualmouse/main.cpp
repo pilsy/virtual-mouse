@@ -1,4 +1,5 @@
-#include <cv.h>p
+#include <cv.h>
+#include <highgui.h>
 #include <iostream>
 
 #include "Motion.h"
@@ -31,12 +32,16 @@ int main( int argc, char **argv )
 	IplImage  *hsv_mask2=NULL;
 	IplImage  *hsv_mask=NULL;
 	IplImage* imageSkinPixels;
+	IplImage* background;
+	IplImage* diffimage;
 	CvSize size = cvSize( width, height);
 	int key=0;
 	CvScalar value;
 	CvScalar value2;
 	float r,g;
+	bool hatter = false;
 	int S1 = 38, S2 = 180, V1 = 56, V2 = 230;
+	int T = 60;
 	//CvScalar  hsv_min = cvScalar(0, 30, 80, 0);
 	//CvScalar  hsv_max = cvScalar(20, 150, 255, 0);
 
@@ -62,12 +67,16 @@ int main( int argc, char **argv )
 	cvCreateTrackbar("Vmin", "Segment", &V1, 220, T1);
 	cvCreateTrackbar("Vmax", "Segment", &V2, 255, T1);
 
+	cvCreateTrackbar("Threshold", "Segment", &T, 255, T1);
+
 	grey  = cvCreateImage(size, IPL_DEPTH_8U, 1);
 	edges = cvCreateImage(size, IPL_DEPTH_8U, 1);
 	segment = cvCreateImage(size, IPL_DEPTH_8U, 1);
 	hsvImg = cvCreateImage(size, IPL_DEPTH_8U, 3);
+	background = cvCreateImage(size, IPL_DEPTH_8U, 3);
 	hsv_mask = cvCreateImage(size, IPL_DEPTH_8U, 1);
 	imageSkinPixels = cvCreateImage(size, IPL_DEPTH_8U, 1);
+	diffimage = cvCreateImage(size, IPL_DEPTH_8U, 3);
 
 	hue = cvCreateImage(size, IPL_DEPTH_8U, 1);
     sat = cvCreateImage(size, IPL_DEPTH_8U, 1);
@@ -80,11 +89,29 @@ int main( int argc, char **argv )
  
         if( !frame ) break;
 
+		switch (key){
+		case 'b':
+			cvCopy( frame, background, NULL );
+			hatter=true;
+		break;
+		}
+
+		if (hatter)
+			cvAbsDiff(frame,background,diffimage);
+
+		cvCvtColor(diffimage, hsv_mask, CV_BGR2GRAY);
+		//cvSmooth(hsv_mask, hsv_mask, CV_GAUSSIAN, 13, 11, 4, 2);
+		cvThreshold(hsv_mask, hsv_mask, T, 255 , CV_THRESH_BINARY);
+		cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 17, 0, 0, 0 );
+
+
+		cvShowImage("dif", diffimage);
+
 
 		//cvSmooth(grey, segment, CV_GAUSSIAN, 11, 11, 4, 2);
 
 
-		if (click->segment){
+		/*if (click->segment){
 
 			CvScalar  hsv_min = cvScalar(0, S1, V1, 0);
 			CvScalar  hsv_max = cvScalar(20, S2, V2, 0);
@@ -97,22 +124,6 @@ int main( int argc, char **argv )
 			//cvDilate(hsv_mask, hsv_mask, NULL, 1);
 			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 27, 0, 0, 0 );
 
-			//cvCanny(hsv_mask, edges, 1, 3, 5);
-
-			/*
-			cvCvtColor(frame, hsvImg, CV_BGR2HSV);
-			cvSplit(hsvImg, hue, sat, val, 0);
-
-			cvThreshold(hue, hue, 36, 255, CV_THRESH_BINARY_INV);
-			cvThreshold(sat, sat, 50, 255, CV_THRESH_BINARY);
-			cvThreshold(val, val, 60, UCHAR_MAX, CV_THRESH_BINARY);
-
-			cvAnd(hue, sat, imageSkinPixels);
-			cvAnd(imageSkinPixels, val, imageSkinPixels);
-
-			cvSmooth(imageSkinPixels, imageSkinPixels, CV_GAUSSIAN, 11, 11, 2, 1);
-			cvThreshold(imageSkinPixels, imageSkinPixels, 80, 255, CV_THRESH_BINARY);
-			*/
 		} else {
 
 			for (int i = 0; i < height; i++){
@@ -139,14 +150,11 @@ int main( int argc, char **argv )
 				}
 			}
 
-			//cvDilate(hsv_mask, hsv_mask, NULL, 3);
 			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 25, 0, 0, 0 );
-			//cvDilate(hsv_mask, hsv_mask, NULL, 1);
-			//cvErode(hsv_mask, hsv_mask, NULL, 1);
+
 		}
+		*/
 
-
-		cvShowImage("Segment", hsv_mask);
 
 		motion->Hotkey(key);
 
@@ -160,7 +168,13 @@ int main( int argc, char **argv )
 			}
 
 	
-			//motion->DrawKereszt(frame);
+			motion->DrawKereszt(frame);
+
+			if (motion->left){
+				cvFlip(hsv_mask,hsv_mask,1);
+			}
+
+			cvShowImage("Segment", hsv_mask);
 		
 			click->ConvexBurok(hsv_mask, frame);
 			click->FindFingers(frame);
