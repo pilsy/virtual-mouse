@@ -135,9 +135,9 @@ void Click::Hotkey(int key){
 	}
 }
 
-void Click::Clicking(bool startMove){
+void Click::Clicking(bool &startMove){
 	cout<<d(fingerTip1, fingerTip2)<<endl;
-	if(d(fingerTip1, fingerTip2) >= clickDistance) {
+	if(d(fingerTip1, fingerTip2) >= clickDistance && !balLe) {
 		mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
 		if(boolTime){
 			time(&distanceTime);
@@ -148,7 +148,8 @@ void Click::Clicking(bool startMove){
 			balLe=true;
 	} 
 	
-	if (difftime(time(&currentTime),distanceTime)>=1 && balLe){
+	if (difftime(time(&currentTime),distanceTime)>=1 && !boolTime){
+		cout<< "eltelt ido: "<< startMove<<endl;
 			startMove=true;
 			boolTime=true;
 					
