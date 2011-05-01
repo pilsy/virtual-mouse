@@ -52,7 +52,7 @@ class Click {
 
 		void FindFingers(IplImage  *originalImg);
 
-		void Clicking(bool);
+		void Clicking(bool &);
 
 		void Hotkey(int key);
 };
