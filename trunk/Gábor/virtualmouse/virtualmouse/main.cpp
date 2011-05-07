@@ -69,6 +69,8 @@ int main( int argc, char **argv )
 
 	cvCreateTrackbar("Threshold", "Segment", &T, 255, T1);
 
+	cvCreateTrackbar("Mouse speed", "Segment", &motion->speed, 10, T1);
+
 	grey  = cvCreateImage(size, IPL_DEPTH_8U, 1);
 	edges = cvCreateImage(size, IPL_DEPTH_8U, 1);
 	segment = cvCreateImage(size, IPL_DEPTH_8U, 1);
@@ -86,32 +88,29 @@ int main( int argc, char **argv )
        
 		// aktuális frame
         frame = cvQueryFrame( capture );
+
+		if (!click->night){
  
-        if( !frame ) break;
+			if( !frame ) break;
 
-		switch (key){
-		case 'b':
-			cvCopy( frame, background, NULL );
-			hatter=true;
-		break;
-		}
+			switch (key){
+			case 'b':
+				cvCopy( frame, background, NULL );
+				hatter=true;
+			break;
+			}
 
-		if (hatter)
-			cvAbsDiff(frame,background,diffimage);
+			if (hatter)
+				cvAbsDiff(frame,background,diffimage);
 
-		cvCvtColor(diffimage, hsv_mask, CV_BGR2GRAY);
-		//cvSmooth(hsv_mask, hsv_mask, CV_GAUSSIAN, 13, 11, 4, 2);
-		cvThreshold(hsv_mask, hsv_mask, T, 255 , CV_THRESH_BINARY);
-		cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 17, 0, 0, 0 );
-
-
-		cvShowImage("dif", diffimage);
+			cvCvtColor(diffimage, hsv_mask, CV_BGR2GRAY);
+			//cvSmooth(hsv_mask, hsv_mask, CV_GAUSSIAN, 13, 11, 4, 2);
+			cvThreshold(hsv_mask, hsv_mask, T, 255 , CV_THRESH_BINARY);
+			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 17, 0, 0, 0 );
 
 
-		//cvSmooth(grey, segment, CV_GAUSSIAN, 11, 11, 4, 2);
-
-
-		/*if (click->segment){
+			cvShowImage("dif", diffimage);
+		} else if (click->segment && click->night){
 
 			CvScalar  hsv_min = cvScalar(0, S1, V1, 0);
 			CvScalar  hsv_max = cvScalar(20, S2, V2, 0);
@@ -124,7 +123,7 @@ int main( int argc, char **argv )
 			//cvDilate(hsv_mask, hsv_mask, NULL, 1);
 			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 27, 0, 0, 0 );
 
-		} else {
+		} else if (!click->segment && click->night){
 
 			for (int i = 0; i < height; i++){
 				for (int j = 0; j < width; j++){
@@ -153,22 +152,23 @@ int main( int argc, char **argv )
 			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 25, 0, 0, 0 );
 
 		}
-		*/
+		
 
 
 		motion->Hotkey(key);
 
 			if(motion->startClick){
-				click->Clicking(motion->startMove);
+				//click->Clicking(motion->startMove);
 			}	
 
 			if (motion->startMove){
-				motion->getMin(click->fingerTip2);
+				motion->getMin(click->difference);
 				motion->MoveTheMouse();
 			}
 
+		
 	
-			motion->DrawKereszt(frame);
+			//motion->DrawKereszt(frame);
 
 			if (motion->left){
 				cvFlip(hsv_mask,hsv_mask,1);
@@ -176,10 +176,22 @@ int main( int argc, char **argv )
 
 			cvShowImage("Segment", hsv_mask);
 		
+	
 			click->ConvexBurok(hsv_mask, frame);
 			click->FindFingers(frame);
+			
 
 		
+			if (click->currentArea < 0.70*click->AVGarea && click->sampleCount > 149){
+				motion->startMove = false;
+				cout << "motion stopped!!!!!!!" << endl;
+			} else if (click->currentArea > 0.70*click->AVGarea && click->sampleCount > 149){
+				motion->startMove = true;
+				cout << "motion STARTED!!!!!!!" << endl;
+			}
+
+			cout << "AVG:" << click->AVGarea << endl;
+			cout << "cur:" << click->currentArea << endl;
 
 		click->Hotkey(key);
 

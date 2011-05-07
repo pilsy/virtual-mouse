@@ -33,7 +33,17 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 
         for( ; contours != 0; contours = contours->h_next )
         {
-           if(cvContourArea(contours) > 8000) {
+           if(cvContourArea(contours) > 9000 && cvContourArea(contours) < 100000) {
+
+			   if (sampleCount < 150){
+				   areaCounter += cvContourArea(contours);
+				   sampleCount++;
+			   } else {
+				   AVGarea = areaCounter / 150;
+			   }
+
+			   currentArea = cvContourArea(contours);
+
 				convexHull = cvConvexHull2(contours);
 				hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
 				break;
@@ -67,12 +77,25 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 void Click::FindFingers(IplImage *originalImg){
 	try{
 		if(points->total > 0) {
+
+
 				// legkisebb y koordinátájú pont sorszáma
 				min = minArg(points);
 
 				// hüvelykujjat (fingerTip1) és mutatóujjat (fingerTip2) szimbolizáló pontok beállítása
 				fingerTip1 = *CV_GET_SEQ_ELEM(CvPoint, points, min+1);
 				fingerTip2 = *CV_GET_SEQ_ELEM(CvPoint, points, min);
+
+				if (firstFrame){
+					PrewFingerTip2 = fingerTip2;
+					firstFrame = false;
+				}
+
+				difference.x = fingerTip2.x - PrewFingerTip2.x;
+				difference.y = fingerTip2.y - PrewFingerTip2.y;
+
+				PrewFingerTip2 = fingerTip2;
+
 
 				// kurzor mozgatása (!!nincs felszorozva a manitor felbontására, csak kipróbáltam, hogy mûködik-e!!)
 				//SetCursorPos(fingerTip2.x, fingerTip2.y);
@@ -126,11 +149,16 @@ void Click::Hotkey(int key){
 		dY--; cout << "dXY: " << dXY << ", dX: " << dX << ", dY: " << dY << endl;
 		break;
 	case 114:// r 
-		this->segment = ! this->segment;
+		this->segment = !this->segment;
 		if (this->segment)
 			cout << "HSV segment" <<endl;
 		else
 			cout << "2D normalized segment" <<endl;
+		break;
+	case 110:// n 
+		this->night = !this->night;
+		if (!this->night)
+			cout << "Using background substraction" <<endl;
 		break;
 	}
 }

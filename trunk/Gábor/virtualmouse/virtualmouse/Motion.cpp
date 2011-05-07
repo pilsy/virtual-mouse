@@ -5,20 +5,41 @@
 
 using namespace std;
 
-void Motion::getMin(CvPoint fingerTip2){
-	if(xMin != NULL) xMinPrev = xMin;
-	if(yMin != NULL) yMinPrev = yMin;
+void Motion::getMin(CvPoint diff){
 
-	if (this->left){
-		xMin = 640 - fingerTip2.x;
-		if(xMinPrev != NULL && abs(xMin - xMinPrev) < 6) xMin = xMinPrev; // korrigálás, ha kell (hogy ne ugráljon x irányban)
-	} else {
-		xMin = fingerTip2.x;
-		if(xMinPrev != NULL && abs(xMin - xMinPrev) < 6) xMin = xMinPrev; // korrigálás, ha kell (hogy ne ugráljon x irányban)
+	if (position[0] + diff.x > horizontal){
+		position[0] = horizontal;
+		diff.x = 0;
+	}
+	
+	if (position[0] + diff.x < 0){
+		position[0] = 0;
+		diff.x = 0;
 	}
 
-	yMin=fingerTip2.y;
-	if(yMinPrev != NULL && abs(yMin - yMinPrev) < 6) yMin = yMinPrev; // korrigálás, ha kell (hogy ne ugráljon y irányban)
+	if (position[1] + diff.y > vertical){
+		position[1] = vertical;
+		diff.y = 0;
+	}
+
+	if (position[1] + diff.y < 0){
+		position[1] = 0;
+		diff.y = 0;
+	}
+
+	if (abs(diff.x) < 3 || abs(diff.x) > 70)
+		diff.x = 0;
+
+	if (abs(diff.y) < 3 || abs(diff.y) > 70)
+		diff.y = 0;
+	
+	position[0] += speed*diff.x;
+	position[1] += speed*diff.y;
+	
+
+
+	PrewPosition[0] = position[0];
+	PrewPosition[1] = position[1];
 
 }
 
@@ -41,7 +62,8 @@ Az egér mozgatása
 void Motion::MoveTheMouse(){
 
 	// mozgatás a skálázott koordinátákra
-	SetCursorPos((int)(((xMin - X1)*horizontal) / (X2 - X1)), (int)(((yMin - Y1)*vertical) / (Y2 - Y1)));
+	//SetCursorPos((int)(((xMin - X1)*horizontal) / (X2 - X1)), (int)(((yMin - Y1)*vertical) / (Y2 - Y1)));
+	SetCursorPos(position[0], position[1]);
 
 }
 
