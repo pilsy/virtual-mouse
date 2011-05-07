@@ -89,6 +89,9 @@ int main( int argc, char **argv )
 		// aktuális frame
         frame = cvQueryFrame( capture );
 
+
+		/*Ha lenyomod az "n"- betût átvált a többi 2 szegmentálás közül a HSV-re
+		Ha aktív a HSV, akkor az r-re pedig átvált 2D norm színtérre*/
 		if (!click->night){
  
 			if( !frame ) break;
