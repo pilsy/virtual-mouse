@@ -84,7 +84,7 @@ void Click::FindFingers(IplImage *originalImg){
 
 				// hüvelykujjat (fingerTip1) és mutatóujjat (fingerTip2) szimbolizáló pontok beállítása
 				fingerTip1 = *CV_GET_SEQ_ELEM(CvPoint, points, min+1);
-				fingerTip2 = *CV_GET_SEQ_ELEM(CvPoint, points, min);
+				if(!jobbLe) fingerTip2 = *CV_GET_SEQ_ELEM(CvPoint, points, min);
 
 				if (firstFrame){
 					PrewFingerTip2 = fingerTip2;
@@ -165,7 +165,7 @@ void Click::Hotkey(int key){
 
 void Click::Clicking(bool &startMove){
 	cout<<d(fingerTip1, fingerTip2)<<endl;
-	if(d(fingerTip1, fingerTip2) >= clickDistance && !balLe) {
+	if(d(fingerTip1, fingerTip2) >= clickDistance && !balLe && !jobbLe) {
 		mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
 		if(boolTime){
 			time(&distanceTime);
@@ -173,18 +173,35 @@ void Click::Clicking(bool &startMove){
 			startMove=false;
 			
 		}
-			balLe=true;
+		balLe=true;
 	} 
 	
 	if (difftime(time(&currentTime),distanceTime)>=1 && !boolTime){
 		cout<< "eltelt ido: "<< startMove<<endl;
 			startMove=true;
 			boolTime=true;
-					
-		}			
+	}			
 
 	if(d(fingerTip1, fingerTip2) < clickDistance && balLe){
 			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
 			balLe=false;
+	}
+}
+
+void Click::RightClick() {
+	// ha a terület nagyobb egy értéknél, akkor van jobb klikk (a 13000-et 320x240-es felbontásnál mértem)
+	// ide majd még adok magyarázatot, hogy miért pont 13000 :)
+	if(currentArea > 13000 && !jobbLe) {
+		cout << "jobb le" << endl;
+		
+		PrewFingerTip2 = fingerTip2;
+		jobbLe=true;
+	}
+
+	if(currentArea <= 13000 && jobbLe) {
+		cout << "jobb fel" << endl;
+
+		fingerTip2 = PrewFingerTip2;
+		jobbLe=false;
 	}
 }
