@@ -7,7 +7,7 @@
 
 using namespace std;
 
-static int width = 640, height = 480;
+static int width = 320, height = 240;
 int horizontal = 0, vertical = 0;
 
 CvMemStorage* storage = cvCreateMemStorage(0);
@@ -162,6 +162,7 @@ int main( int argc, char **argv )
 
 			if(motion->startClick){
 				//click->Clicking(motion->startMove);
+				click->RightClick();
 			}	
 
 			if (motion->startMove){
@@ -187,14 +188,14 @@ int main( int argc, char **argv )
 		
 			if (click->currentArea < 0.70*click->AVGarea && click->sampleCount > 149){
 				motion->startMove = false;
-				cout << "motion stopped!!!!!!!" << endl;
+//				cout << "motion stopped!!!!!!!" << endl;
 			} else if (click->currentArea > 0.70*click->AVGarea && click->sampleCount > 149){
 				motion->startMove = true;
-				cout << "motion STARTED!!!!!!!" << endl;
+//				cout << "motion STARTED!!!!!!!" << endl;
 			}
 
-			cout << "AVG:" << click->AVGarea << endl;
-			cout << "cur:" << click->currentArea << endl;
+//			cout << "AVG:" << click->AVGarea << endl;
+//			cout << "cur:" << click->currentArea << endl;
 
 		click->Hotkey(key);
 

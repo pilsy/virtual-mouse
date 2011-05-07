@@ -7,7 +7,6 @@
 #include <time.h>
 
 class Click {
-
 	private:
 		CvSeq* contours;
 		CvSeq* convexHull;
@@ -22,6 +21,8 @@ class Click {
 		CvMemStorage* storange;
 		bool boolTime;
 		bool balLe;
+		bool jobbLe;
+
 	public:
 		CvPoint fingerTip1;
 		CvPoint fingerTip2;
@@ -44,6 +45,7 @@ class Click {
 			firstFrame = true;
 			boolTime=true;
 			balLe=false;
+			jobbLe=false;
 			sampleCount = 1;
 			AVGarea = 0;
 			areaCounter = 0;
@@ -62,6 +64,8 @@ class Click {
 		void FindFingers(IplImage  *originalImg);
 
 		void Clicking(bool &);
+
+		void RightClick();
 
 		void Hotkey(int key);
 };
