@@ -27,10 +27,10 @@ void Motion::getMin(CvPoint diff){
 		diff.y = 0;
 	}
 
-	if (abs(diff.x) < 5 || abs(diff.x) > 50)
+	if (abs(diff.x) < 4 || abs(diff.x) > 70)
 		diff.x = 0;
 
-	if (abs(diff.y) < 5 || abs(diff.y) > 50)
+	if (abs(diff.y) < 4 || abs(diff.y) > 70)
 		diff.y = 0;
 	
 	if (left){
@@ -53,9 +53,7 @@ void Motion::GetDesktopResolution(int& horizontal, int& vertical){
    const HWND hDesktop = GetDesktopWindow();
    // Get the size of screen to the variable desktop
    GetWindowRect(hDesktop, &desktop);
-   // The top left corner will have coordinates (0,0)
-   // and the bottom right corner will have coordinates
-   // (horizontal, vertical)
+
    horizontal = desktop.right;
    vertical = desktop.bottom;
 }
@@ -71,32 +69,6 @@ void Motion::MoveTheMouse(){
 
 }
 
-void Motion::DrawKereszt(IplImage  *frame){
-		// kereszt kirajzolása
-		if (xMin > 5 && yMin > 5 && (xMin < width-5 && yMin < height -5 )){
-		value.val[0] = 0;
-		value.val[1] = 0;
-		value.val[2] = 255;
-		cvSet2D(frame, yMin,xMin,value);
-		cvSet2D(frame, yMin+1,xMin,value);
-		cvSet2D(frame, yMin-1,xMin,value);
-		cvSet2D(frame, yMin,xMin+1,value);
-		cvSet2D(frame, yMin,xMin-1,value);
-		cvSet2D(frame, yMin+2,xMin,value);
-		cvSet2D(frame, yMin-2,xMin,value);
-		cvSet2D(frame, yMin,xMin+2,value);
-		cvSet2D(frame, yMin,xMin-2,value);
-		cvSet2D(frame, yMin+3,xMin,value);
-		cvSet2D(frame, yMin-3,xMin,value);
-		cvSet2D(frame, yMin,xMin+3,value);
-		cvSet2D(frame, yMin,xMin-3,value);
-		cvSet2D(frame, yMin+4,xMin,value);
-		cvSet2D(frame, yMin-4,xMin,value);
-		cvSet2D(frame, yMin,xMin+4,value);
-		cvSet2D(frame, yMin,xMin-4,value);
-		}
-
-}
 
 void Motion::Hotkey(int key){
 	switch (key){
