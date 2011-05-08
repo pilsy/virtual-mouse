@@ -27,10 +27,10 @@ void Motion::getMin(CvPoint diff){
 		diff.y = 0;
 	}
 
-	if (abs(diff.x) < 3 || abs(diff.x) > 70)
+	if (abs(diff.x) < 5 || abs(diff.x) > 50)
 		diff.x = 0;
 
-	if (abs(diff.y) < 3 || abs(diff.y) > 70)
+	if (abs(diff.y) < 5 || abs(diff.y) > 50)
 		diff.y = 0;
 	
 	if (left){

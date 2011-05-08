@@ -41,7 +41,7 @@ class Motion {
 			startMove = firstMove = false;
 			startClick=false;
 			left = false;
-			speed = 2;
+			speed = 3;
 		}
 		~Motion(){
 		}
