@@ -33,11 +33,11 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg) {
 			if(cvContourArea(contours) > 9000 && cvContourArea(contours) < 100000) {
 //				if(AVGarea == 0) AVGarea = cvContourArea(contours);
 
-				if (sampleCount % 150 > 0){
+				if (sampleCount % 90 > 0){
 					areaCounter += cvContourArea(contours);
 					sampleCount++;
 				} else {
-					AVGarea = areaCounter / 150;
+					AVGarea = areaCounter / 90;
 					areaCounter = 0;
 					sampleCount++;
 					cout << "AVG: " << AVGarea << endl;
@@ -135,7 +135,7 @@ void Click::LeftClick(bool &startMove){
 }
 
 void Click::RightClick() {
-	if(currentArea > (0.8 * AVGarea) && !jobbLe) {
+	if(currentArea > (1.1 * AVGarea) && !jobbLe && AVGarea != 0) {
 		cout << "jobb le" << endl;
 		
 		PrewFingerTip2 = fingerTip2;
@@ -143,7 +143,7 @@ void Click::RightClick() {
 		jobbLe=true;
 	}
 
-	if(currentArea <= (0.8 * AVGarea) && jobbLe) {
+	if(currentArea <= (1.1 * AVGarea) && jobbLe) {
 		cout << "jobb fel" << endl;
 
 		fingerTip2 = PrewFingerTip2;
