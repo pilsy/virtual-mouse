@@ -40,7 +40,7 @@ body {
 	color: #888;
 	float: left;
 	padding-top: 4px;
-	width: 111px; height: 36px;
+	width: 95px; height: 36px;
 }
 .menu a span {
 	padding-left: 6px;
@@ -50,7 +50,7 @@ body {
 	color: #555;
 }
 .menu a#last {
-	width: 120px;
+	width: 100px;
 	border-right: none;
 }
 .container {
