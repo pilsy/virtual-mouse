@@ -63,11 +63,11 @@ class Click {
 
 		void FindFingers(IplImage  *originalImg);
 
+		void Hotkey(int key);
+
 		void LeftClick(bool &);
 
 		void RightClick();
-
-		void Hotkey(int key);
 };
 
 #endif Click_h
