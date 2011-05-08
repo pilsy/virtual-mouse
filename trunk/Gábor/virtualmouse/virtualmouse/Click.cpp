@@ -5,11 +5,11 @@
 
 using namespace std;
 
-double Click::d(CvPoint point1, CvPoint point2){
+double Click::d(CvPoint point1, CvPoint point2) {
 	return sqrt(pow((double)(point2.x - point1.x), 2) + pow((double)(point2.y - point1.y), 2));
 }
 
-int Click::minArg(CvSeq* points){
+int Click::minArg(CvSeq* points) {
 	int min_i = 0;
 	int min_y = (*CV_GET_SEQ_ELEM(CvPoint, points, min_i)).y;
 				
@@ -23,34 +23,30 @@ int Click::minArg(CvSeq* points){
 	return min_i;
 }
 
-void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
-	try{
-
-
+void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg) {
+	try {
 		cvFindContours( grayImg, this->storange, &contours, sizeof(CvContour),
            CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
 
 
-        for( ; contours != 0; contours = contours->h_next )
-        {
-           if(cvContourArea(contours) > 9000 && cvContourArea(contours) < 100000) {
+		for( ; contours != 0; contours = contours->h_next ) {
+			if(cvContourArea(contours) > 9000 && cvContourArea(contours) < 100000) {
+				if (sampleCount % 150 > 0){
+					areaCounter += cvContourArea(contours);
+					sampleCount++;
+				} else {
+					AVGarea = areaCounter / 150;
+					sampleCount++;
+					cout << "AVG: " << AVGarea << endl;
+				}
 
-			   if (sampleCount < 150){
-				   areaCounter += cvContourArea(contours);
-				   sampleCount++;
-			   } else {
-				   AVGarea = areaCounter / 150;
-			   }
-
-			   currentArea = cvContourArea(contours);
+				currentArea = cvContourArea(contours);
 
 				convexHull = cvConvexHull2(contours);
 				hullCount = convexHull->total; // megadja, hogy hány szögû a konvex burok
 				break;
 		   }
         }
-
-
 		
 		// ha létezik a konvex burok (azaz nem csak a fekete hátteret látjuk, hanem elõtte van a kezünk), akkor...
 		if(hullCount > 0) {
@@ -68,61 +64,90 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg){
 				cvLine(originalImg, pointPrev, point, CV_RGB(0, 255, 0), 1); // konvex burok megjelenítése
 			}
 		}
-	}catch (cv::Exception& e){
+	} catch (cv::Exception& e) {
 		cout << "cink van 1" << endl;
 	}
 		
 }
 
-void Click::FindFingers(IplImage *originalImg){
+void Click::FindFingers(IplImage *originalImg) {
 	try{
 		if(points->total > 0) {
+			// legkisebb y koordinátájú pont sorszáma
+			min = minArg(points);
 
+			// hüvelykujjat (fingerTip1) és mutatóujjat (fingerTip2) szimbolizáló pontok beállítása
+			fingerTip1 = *CV_GET_SEQ_ELEM(CvPoint, points, min+1);
+			if(!jobbLe) fingerTip2 = *CV_GET_SEQ_ELEM(CvPoint, points, min);
 
-				// legkisebb y koordinátájú pont sorszáma
-				min = minArg(points);
-
-				// hüvelykujjat (fingerTip1) és mutatóujjat (fingerTip2) szimbolizáló pontok beállítása
-				fingerTip1 = *CV_GET_SEQ_ELEM(CvPoint, points, min+1);
-				if(!jobbLe) fingerTip2 = *CV_GET_SEQ_ELEM(CvPoint, points, min);
-
-				if (firstFrame){
-					PrewFingerTip2 = fingerTip2;
-					firstFrame = false;
-				}
-
-				difference.x = fingerTip2.x - PrewFingerTip2.x;
-				difference.y = fingerTip2.y - PrewFingerTip2.y;
-
+			if (firstFrame) {
 				PrewFingerTip2 = fingerTip2;
-
-
-				// kurzor mozgatása (!!nincs felszorozva a manitor felbontására, csak kipróbáltam, hogy mûködik-e!!)
-				//SetCursorPos(fingerTip2.x, fingerTip2.y);
-
-				// kirajzolás: hüvelykujj kékkel, mutatóujj pirossal, a két pont távolsága sárgával
-				cvCircle(originalImg, fingerTip1, 3, CV_RGB(0, 0, 255), 3);
-				cvCircle(originalImg, fingerTip2, 3, CV_RGB(255, 0, 0), 3);
-				cvLine(originalImg, fingerTip1, fingerTip2, CV_RGB(255, 255, 0), 1);
-
-				// bal egérgomb akció
-			/*	if(d(fingerTip1, fingerTip2) > clickDistance) {
-					cout << "Bal gomb lenyomva - " << d(fingerTip1, fingerTip2) << endl;
-				} else {
-					cout << "Bal gomb nincs lenyomva - " << d(fingerTip1, fingerTip2) << endl;
-				}
+				firstFrame = false;
 			}
-			*/
+
+			difference.x = fingerTip2.x - PrewFingerTip2.x;
+			difference.y = fingerTip2.y - PrewFingerTip2.y;
+
+			PrewFingerTip2 = fingerTip2;
+
+			// kirajzolás: hüvelykujj kékkel, mutatóujj pirossal, a két pont távolsága sárgával
+			cvCircle(originalImg, fingerTip1, 3, CV_RGB(0, 0, 255), 3);
+			cvCircle(originalImg, fingerTip2, 3, CV_RGB(255, 0, 0), 3);
+			cvLine(originalImg, fingerTip1, fingerTip2, CV_RGB(255, 255, 0), 1);
+
 			// verem (pontsorozat) kiürítése
 			cvClearSeq(points);
 		}
-	}catch (cv::Exception& e){
+	} catch (cv::Exception& e) {
 		cout << "cink van 2" << endl;
 	}
 		
 }
 
-void Click::Hotkey(int key){
+void Click::LeftClick(bool &startMove){
+	cout << d(fingerTip1, fingerTip2) << endl;
+
+	if(d(fingerTip1, fingerTip2) >= clickDistance && !balLe && !jobbLe) {
+		mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+
+		if(boolTime) {
+			time(&distanceTime);
+			boolTime=false;
+			startMove=false;
+		}
+
+		balLe=true;
+	} 
+	
+	if (difftime(time(&currentTime),distanceTime)>=1 && !boolTime){
+		cout<< "eltelt ido: "<< startMove<<endl;
+			startMove=true;
+			boolTime=true;
+	}			
+
+	if(d(fingerTip1, fingerTip2) < clickDistance && balLe){
+			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+			balLe=false;
+	}
+}
+
+void Click::RightClick() {
+	if(currentArea > (0.8 * AVGarea) && !jobbLe) {
+		cout << "jobb le" << endl;
+		
+		PrewFingerTip2 = fingerTip2;
+		jobbLe=true;
+	}
+
+	if(currentArea <= (0.8 * AVGarea) && jobbLe) {
+		cout << "jobb fel" << endl;
+
+		fingerTip2 = PrewFingerTip2;
+		jobbLe=false;
+	}
+}
+
+void Click::Hotkey(int key) {
 	switch (key){
 	case 50:// 2 (inc clickDistance)
 		clickDistance++; cout << "clickDistance: " << clickDistance << endl;
@@ -160,48 +185,5 @@ void Click::Hotkey(int key){
 		if (!this->night)
 			cout << "Using background substraction" <<endl;
 		break;
-	}
-}
-
-void Click::Clicking(bool &startMove){
-	cout<<d(fingerTip1, fingerTip2)<<endl;
-	if(d(fingerTip1, fingerTip2) >= clickDistance && !balLe && !jobbLe) {
-		mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-		if(boolTime){
-			time(&distanceTime);
-			boolTime=false;
-			startMove=false;
-			
-		}
-		balLe=true;
-	} 
-	
-	if (difftime(time(&currentTime),distanceTime)>=1 && !boolTime){
-		cout<< "eltelt ido: "<< startMove<<endl;
-			startMove=true;
-			boolTime=true;
-	}			
-
-	if(d(fingerTip1, fingerTip2) < clickDistance && balLe){
-			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-			balLe=false;
-	}
-}
-
-void Click::RightClick() {
-	// ha a terület nagyobb egy értéknél, akkor van jobb klikk (a 13000-et 320x240-es felbontásnál mértem)
-	// ide majd még adok magyarázatot, hogy miért pont 13000 :)
-	if(currentArea > 3*13000 && !jobbLe) {
-		cout << "jobb le" << endl;
-		
-		PrewFingerTip2 = fingerTip2;
-		jobbLe=true;
-	}
-
-	if(currentArea <= 3*13000 && jobbLe) {
-		cout << "jobb fel" << endl;
-
-		fingerTip2 = PrewFingerTip2;
-		jobbLe=false;
 	}
 }
