@@ -31,16 +31,19 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg) {
 
 		for( ; contours != 0; contours = contours->h_next ) {
 			if(cvContourArea(contours) > 9000 && cvContourArea(contours) < 100000) {
-//				if(AVGarea == 0) AVGarea = cvContourArea(contours);
+				// elõször 5 mp-ig tanul, késõbb 10 mp-ként frissíti az átlagos területet, ha...
+				AVGareaFrames = (AVGarea == 0) ? 150 : 30;
 
-				if (sampleCount % 90 > 0){
+				if (sampleCount % AVGareaFrames > 0){
 					areaCounter += cvContourArea(contours);
 					sampleCount++;
 				} else {
-					AVGarea = areaCounter / 90;
+					if(AVGarea == 0 || (AVGarea != 0 && (areaCounter / AVGareaFrames) > (0.75 * AVGarea) && (areaCounter / AVGareaFrames) < (1.25 * AVGarea))) AVGarea = areaCounter / AVGareaFrames;
+
 					areaCounter = 0;
 					sampleCount++;
-					cout << "AVG: " << AVGarea << endl;
+
+					cout << AVGarea << endl;
 				}
 
 				currentArea = cvContourArea(contours);
@@ -140,6 +143,7 @@ void Click::RightClick() {
 		
 		PrewFingerTip2 = fingerTip2;
 //		mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+//		mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
 		jobbLe=true;
 	}
 
@@ -147,7 +151,6 @@ void Click::RightClick() {
 		cout << "jobb fel" << endl;
 
 		fingerTip2 = PrewFingerTip2;
-//		mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
 		jobbLe=false;
 	}
 }
