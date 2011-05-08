@@ -191,14 +191,14 @@ void Click::Clicking(bool &startMove){
 void Click::RightClick() {
 	// ha a terület nagyobb egy értéknél, akkor van jobb klikk (a 13000-et 320x240-es felbontásnál mértem)
 	// ide majd még adok magyarázatot, hogy miért pont 13000 :)
-	if(currentArea > 13000 && !jobbLe) {
+	if(currentArea > 3*13000 && !jobbLe) {
 		cout << "jobb le" << endl;
 		
 		PrewFingerTip2 = fingerTip2;
 		jobbLe=true;
 	}
 
-	if(currentArea <= 13000 && jobbLe) {
+	if(currentArea <= 3*13000 && jobbLe) {
 		cout << "jobb fel" << endl;
 
 		fingerTip2 = PrewFingerTip2;

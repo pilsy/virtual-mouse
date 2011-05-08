@@ -7,7 +7,7 @@
 
 using namespace std;
 
-static int width = 320, height = 240;
+static int width = 640, height = 480;
 int horizontal = 0, vertical = 0;
 
 CvMemStorage* storage = cvCreateMemStorage(0);
@@ -161,13 +161,16 @@ int main( int argc, char **argv )
 		motion->Hotkey(key);
 
 			if(motion->startClick){
-				//click->Clicking(motion->startMove);
+				click->Clicking(motion->startMove);
 				click->RightClick();
 			}	
 
 			if (motion->startMove){
 				motion->getMin(click->difference);
 				motion->MoveTheMouse();
+			} else {
+				click->difference.x = 0;
+				click->difference.y = 0;
 			}
 
 		
@@ -181,17 +184,19 @@ int main( int argc, char **argv )
 			cvShowImage("Segment", hsv_mask);
 		
 	
-			click->ConvexBurok(hsv_mask, frame);
-			click->FindFingers(frame);
-			
+
+			if (motion->firstMove){
+				click->ConvexBurok(hsv_mask, frame);
+				click->FindFingers(frame);
+			}
 
 		
-			if (click->currentArea < 0.70*click->AVGarea && click->sampleCount > 149){
+			if (click->currentArea < 0.80*click->AVGarea && click->sampleCount > 149){
 				motion->startMove = false;
-//				cout << "motion stopped!!!!!!!" << endl;
-			} else if (click->currentArea > 0.70*click->AVGarea && click->sampleCount > 149){
+				cout << "motion stopped!!!!!!!" << endl;
+			} else if (click->currentArea > 0.80*click->AVGarea && click->sampleCount > 149){
 				motion->startMove = true;
-//				cout << "motion STARTED!!!!!!!" << endl;
+				cout << "motion STARTED!!!!!!!" << endl;
 			}
 
 //			cout << "AVG:" << click->AVGarea << endl;
