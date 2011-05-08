@@ -1,7 +1,6 @@
 #ifndef Click_h
 #define Click_h
 
-
 #include <cxcore.h>
 #include <highgui.h>
 #include <time.h>
@@ -51,6 +50,7 @@ class Click {
 			areaCounter = 0;
 			currentArea = 0;
 		}
+
 		~Click(){
 		
 		}
