@@ -20,7 +20,7 @@ class Motion {
 	public:
 		int horizontal, vertical;
 		int stop;		
-		bool startMove;
+		bool startMove, firstMove;
 		bool startClick;
 		bool left;
 		int speed;
@@ -38,7 +38,7 @@ class Motion {
 			delta = new int[2];
 			width = w-10, height = h-10;
 			stop = -1;
-			startMove = false;
+			startMove = firstMove = false;
 			startClick=false;
 			left = false;
 			speed = 2;

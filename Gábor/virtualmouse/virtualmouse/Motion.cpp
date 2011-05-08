@@ -33,9 +33,13 @@ void Motion::getMin(CvPoint diff){
 	if (abs(diff.y) < 3 || abs(diff.y) > 70)
 		diff.y = 0;
 	
-	position[0] += speed*diff.x;
-	position[1] += speed*diff.y;
-	
+	if (left){
+		position[0] += 640 - speed*diff.x;
+		position[1] += speed*diff.y;
+	} else {
+		position[0] += speed*diff.x;
+		position[1] += speed*diff.y;
+	}
 
 
 	PrewPosition[0] = position[0];
@@ -102,6 +106,7 @@ void Motion::Hotkey(int key){
 	case 'p':
 		startMove = !startMove;
 		startClick=!startClick;
+		firstMove = !firstMove;
 		break;
 	case 108:// l 
 		this->left = !this->left;
