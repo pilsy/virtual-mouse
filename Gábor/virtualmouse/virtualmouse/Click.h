@@ -63,7 +63,7 @@ class Click {
 
 		void FindFingers(IplImage  *originalImg);
 
-		void Clicking(bool &);
+		void LeftClick(bool &);
 
 		void RightClick();
 
