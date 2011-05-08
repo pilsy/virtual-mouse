@@ -137,7 +137,7 @@ int main( int argc, char **argv )
 
 			if(motion->startClick){
 				click->LeftClick(motion->startMove);
-	//			click->RightClick();
+				click->RightClick();
 			}	
 
 
