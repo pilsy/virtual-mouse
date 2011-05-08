@@ -15,6 +15,7 @@ class Click {
 		CvSeq* points;
 		int dXY, dX, dY;
 		int min;
+		int AVGareaFrames;
 		time_t distanceTime, currentTime;
 		int clickDistance;
 		CvMemStorage* storange;
@@ -38,6 +39,7 @@ class Click {
 			points = cvCreateSeq(CV_SEQ_ELTYPE_POINT, sizeof(CvSeq), sizeof(CvPoint), this->storange);
 			dXY = 30, dX = 5, dY = 5;
 			min=0;
+			AVGareaFrames = 0;
 			clickDistance = 175;
 			segment = true;
 			night = false;
