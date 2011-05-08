@@ -7,7 +7,7 @@
 
 using namespace std;
 
-static int width = 320, height = 240;
+static int width = 640, height = 480;
 int horizontal = 0, vertical = 0;
 
 CvMemStorage* storage = cvCreateMemStorage(0);
@@ -40,10 +40,8 @@ int main( int argc, char **argv )
 	CvScalar value2;
 	float r,g;
 	bool hatter = false;
-	int S1 = 38, S2 = 180, V1 = 56, V2 = 230;
-	int T = 60;
-	//CvScalar  hsv_min = cvScalar(0, 30, 80, 0);
-	//CvScalar  hsv_max = cvScalar(20, 150, 255, 0);
+	//int S1 = 38, S2 = 180, V1 = 56, V2 = 230;
+	int T = 55;
 
 	motion->GetDesktopResolution(motion->horizontal, motion->vertical);
  
@@ -61,11 +59,6 @@ int main( int argc, char **argv )
  
     cvNamedWindow( "Original", CV_WINDOW_AUTOSIZE );
 	cvNamedWindow( "Segment", CV_WINDOW_AUTOSIZE );
-
-	cvCreateTrackbar("Smin", "Segment", &S1, 120, T1);
-	cvCreateTrackbar("Smax", "Segment", &S2, 255, T1);
-	cvCreateTrackbar("Vmin", "Segment", &V1, 220, T1);
-	cvCreateTrackbar("Vmax", "Segment", &V2, 255, T1);
 
 	cvCreateTrackbar("Threshold", "Segment", &T, 255, T1);
 
@@ -99,6 +92,7 @@ int main( int argc, char **argv )
 			switch (key){
 			case 'b':
 				cvCopy( frame, background, NULL );
+				cout << "Background saved!" << endl;
 				hatter=true;
 			break;
 			}
@@ -107,32 +101,13 @@ int main( int argc, char **argv )
 				cvAbsDiff(frame,background,diffimage);
 
 			cvCvtColor(diffimage, hsv_mask, CV_BGR2GRAY);
-			//cvSmooth(hsv_mask, hsv_mask, CV_GAUSSIAN, 13, 11, 4, 2);
 			cvThreshold(hsv_mask, hsv_mask, T, 255 , CV_THRESH_BINARY);
 			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 17, 0, 0, 0 );
 
-
-			cvShowImage("dif", diffimage);
-		} else if (click->segment && click->night){
-
-			CvScalar  hsv_min = cvScalar(0, S1, V1, 0);
-			CvScalar  hsv_max = cvScalar(20, S2, V2, 0);
-
-			cvCvtColor(frame, hsvImg, CV_BGR2HSV);
-			cvSplit(hsvImg, hue, sat, val, 0);
-
-			cvInRangeS (hsvImg, hsv_min, hsv_max, hsv_mask);
-
-			//cvDilate(hsv_mask, hsv_mask, NULL, 1);
-			cvSmooth( hsv_mask, hsv_mask, CV_MEDIAN, 27, 0, 0, 0 );
-
-		} else if (!click->segment && click->night){
+		} else {
 
 			for (int i = 0; i < height; i++){
 				for (int j = 0; j < width; j++){
-
-
-
 
 					value = cvGet2D(frame,i,j);
 					r = value.val[2] / (value.val[0] + value.val[1] + value.val[2]);
@@ -161,9 +136,10 @@ int main( int argc, char **argv )
 		motion->Hotkey(key);
 
 			if(motion->startClick){
-//				click->LeftClick(motion->startMove);
-				click->RightClick();
+				click->LeftClick(motion->startMove);
+	//			click->RightClick();
 			}	
+
 
 			if (motion->startMove){
 				motion->getMin(click->difference);
@@ -191,10 +167,10 @@ int main( int argc, char **argv )
 			}
 
 		
-			if (click->currentArea < 0.80*click->AVGarea && click->sampleCount > 149){
+			if (click->currentArea < 0.90*click->AVGarea && click->sampleCount > 149){
 				motion->startMove = false;
 //				cout << "motion stopped!!!!!!!" << endl;
-			} else if (click->currentArea > 0.80*click->AVGarea && click->sampleCount > 149){
+			} else if (click->currentArea > 0.90*click->AVGarea && click->sampleCount > 149){
 				motion->startMove = true;
 //				cout << "motion STARTED!!!!!!!" << endl;
 			}

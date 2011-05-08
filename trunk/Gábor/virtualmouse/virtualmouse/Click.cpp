@@ -31,8 +31,8 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg) {
 
 		for( ; contours != 0; contours = contours->h_next ) {
 			if(cvContourArea(contours) > 9000 && cvContourArea(contours) < 100000) {
-				// elõször 5 mp-ig tanul, késõbb 10 mp-ként frissíti az átlagos területet, ha...
-				AVGareaFrames = (AVGarea == 0) ? 150 : 30;
+				
+				AVGareaFrames = 150;
 
 				if (sampleCount % AVGareaFrames > 0){
 					areaCounter += cvContourArea(contours);
@@ -43,7 +43,7 @@ void Click::ConvexBurok(IplImage* grayImg, IplImage *originalImg) {
 					areaCounter = 0;
 					sampleCount++;
 
-					cout << AVGarea << endl;
+					//cout << AVGarea << endl;
 				}
 
 				currentArea = cvContourArea(contours);
@@ -111,7 +111,7 @@ void Click::FindFingers(IplImage *originalImg) {
 }
 
 void Click::LeftClick(bool &startMove){
-	cout << d(fingerTip1, fingerTip2) << endl;
+	//cout << d(fingerTip1, fingerTip2) << endl;
 
 	if(d(fingerTip1, fingerTip2) >= clickDistance && !balLe && !jobbLe) {
 		mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
@@ -125,8 +125,8 @@ void Click::LeftClick(bool &startMove){
 		balLe=true;
 	} 
 	
-	if (difftime(time(&currentTime),distanceTime)>=1 && !boolTime){
-		cout<< "eltelt ido: "<< startMove<<endl;
+	if (difftime(time(&currentTime),distanceTime)>=2 && !boolTime){
+		//cout<< "eltelt ido: "<< startMove<<endl;
 			startMove=true;
 			boolTime=true;
 	}			
@@ -181,17 +181,13 @@ void Click::Hotkey(int key) {
 	case 121:// y (dec dY) 
 		dY--; cout << "dXY: " << dXY << ", dX: " << dX << ", dY: " << dY << endl;
 		break;
-	case 114:// r 
-		this->segment = !this->segment;
-		if (this->segment)
-			cout << "HSV segment" <<endl;
-		else
-			cout << "2D normalized segment" <<endl;
-		break;
 	case 110:// n 
 		this->night = !this->night;
 		if (!this->night)
 			cout << "Using background substraction" <<endl;
+		else
+			cout << "2D normalized segment" <<endl;
+		break;
 		break;
 	}
 }
