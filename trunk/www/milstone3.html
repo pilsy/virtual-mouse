@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1250" />
+<meta name="description" content="description"/>
+<meta name="keywords" content="keywords"/> 
+<meta name="author" content="Horváth Zsolt" /> 
+<link rel="stylesheet" type="text/css" href="default.css"/>
+<title>Virtual Mouse</title>
+</head>
+<body>
+<div class="main">
+	<div class="container">
+		<div class="gfx"><a href="index.html"><span></span></a></div>
+		<div class="menu">
+			<a href="index.html"><span>Kezdőlap</span></a>
+			<a href="kod.html"><span>Programkod</span></a>
+			<a href="megoldas.html"><span>Megoldás</span></a>
+			<a href="algterv.html"><span>Milstone 1</span></a>
+			<a href="milstone2.html"><span>Milstone 2</span></a>
+			<a href="milstone3.html"><span>Milstone 3</span></a>			
+			<a href="hivatkozasok.html" id="last"><span>Hivatkozások</span></a>
+		</div>
+		<div class="content">
+			<div class="item">
+				<h2>Szegmentálás</h2>
+				<p>
+				<OL>
+					 <LI><p><b>Háttérkivonás</b></p></LI>
+					 <OL TYPE=a>
+							<LI><b>"b" gombbal aktuális háttér lementése (kéz nélkül)</b></LI>
+							</br>
+							<LI><b>Az egyes frame-k kivonása a háttérből</b></LI>
+							</br>
+							<LI><b>Küszöbölés</b></LI>
+							</br>
+							<p>
+							<img id="1" alt="1" width="500" height="200" src="img/diff1.png"/>
+							</p>
+							<div><b class="center1">Az eredeti kép és a differencia</b></div>
+							<p>
+							</br>
+							<img id="nyolc" alt="2" width="423" height="320" src="img/diff2.png"/>
+							</p>
+							<div><b class="center">Szegmentált kép</b></div>
+							</br>
+						 </OL>
+					 <LI><p><b>2D normalizált színtéren alapuló szegmentálás</b></p></LI>
+					 <OL TYPE=a>
+							<LI><b>RGB -> 2D normalizált szintér konverzió</b></LI>
+							</br>
+							<p>
+							<img id="5" alt="5" width="500" height="330" src="img/norm1.png"/>
+							</p>
+							</br>
+							<LI><b>Eredmény:</b></LI>
+							</br>
+							<p>
+							<img id="6" alt="6" width="500" height="200" src="img/norm2.png"/>
+							</p>
+							<div><b class="center2">RG szintérben történő szegmentálás (mesterséges fény mellett)</b></div>
+							</br>
+							<p>
+							<img id="7" alt="7" width="500" height="200" src="img/norm3.png"/>
+							</p>
+							<div><b class="center1">A szegmentált kép mediánszűrés után</b></div>
+							</br>
+						 </OL>
+				</OL>
+				</p>
+			</div>
+			<div class="item">
+				<h2>Kontúr, konvex burok, ujjhegyek</h2>
+				<p>
+				<OL>
+				<LI><p><b>cvFindContours() fgv. a kontúrok keresésére</b></p></LI>
+				</br>
+				<LI><p><b>cvContourArea() fgv. a kéz kontúr megtalálására</b></p></LI>
+				</br>
+				<p>
+				<img id="nyolc" alt="8" width="500" height="200" src="img/konv1.png"/>
+				</p>
+				</br>
+				<LI><p><b>Konvex burok számítása</b> - cvConvexHull2() fgv.</p></LI>
+				</br>
+				<p>
+				<img id="kilenc" alt="9" class="kep" width="302" height="227" src="img/konv2.png"/>
+				</p>
+				<div><b class="center3">Konvex burok</b></div>
+				</br>
+				<LI><p><b>Ujjhegyek keresése</b> - konvex burok töréspontjai/ritkítás</p></LI>
+				</br>
+				<p>
+				<img id="nyolc" alt="10" class="kep" width="500" height="200" src="img/konv3.png"/>
+				</p>
+				</OL>
+				</p>
+			</div>
+			<div class="item">
+				<h2>Kurzor mozgása és kattintás</h2>
+				<p>
+				<OL>
+				<LI><p><b>Mozgatás</b> - SetCursorPos() fgv.</p></LI>
+				<OL TYPE=a>
+							<LI><b>szegmentált mutató ujj koordinátáinak megkeresése</b></LI>
+							</br>
+							<LI><b>Differencia vektor figyelése</b> - ha túl nagy vagy túl kicsi a kurzor nem mozdul</LI>
+							</br>
+							<LI><b>átlagterület figyelése</b> - kéz terület csökkenésre egér elengedés esemény (kurzor mozgatható több mozdulattal)</LI>
+							</br>
+							<LI><b>manuálisan egér érzékenység állítás</b></LI>
+							</br>
+						 </OL>
+				<LI><p><b>Klikkelés</b> - mouse_event() fgv.</p></LI>
+				<OL TYPE=a>
+							<LI><b>MOUSEEVENTF_LEFTDOWN -	bal gomb lenyomva</b></LI>
+							</br>
+							<LI><b>MOUSEEVENTF_LEFTUP -	bal gomb felengedve</b></LI>
+							</br>
+							<LI><b>MOUSEEVENTF_RIGHTDOWN -	jobb gomb lenyomva</b></LI>
+							</br>
+							<LI><b>MOUSEEVENTF_RIGHTUP	-	jobb gomb felengedve</b></LI>
+							</br>
+						 </OL>
+				<LI><p><b>Hiányosságok</b></p></LI>
+				<OL TYPE=a>
+							<LI><b>az egérkurzor mozgatásának pontossága</b></LI>
+							</br>
+							<LI><b>kattintás során a kéz bemozdul</b></LI>
+							</br>
+							</br>
+						 </OL>
+				</OL>
+				</p>
+				<br>
+				
+			</div>
+		</div>
+		<div class="footer">&copy; 2011 Számítógépes Látás. Design by <a href="http://www.arcsin.se">Arcsin</a></div>
+	</div>	
+</div>
+</body>
+</html>

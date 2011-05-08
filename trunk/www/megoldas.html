@@ -2,10 +2,10 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-type" content="text/html; charset=windows-1250" />
 <meta name="description" content="description"/>
 <meta name="keywords" content="keywords"/> 
-<meta name="author" content="HorvÃ¡th Zsolt" /> 
+<meta name="author" content="Horváth Zsolt" /> 
 <link rel="stylesheet" type="text/css" href="default.css"/>
 <title>Virtual Mouse</title>
 </head>
@@ -14,31 +14,32 @@
 	<div class="container">
 		<div class="gfx"><a href="index.html"><span></span></a></div>
 		<div class="menu">
-			<a href="index.html"><span>KezdÅ‘lap</span></a>
-			<a href="feladat.html"><span>Feladat</span></a>
-			<a href="megoldas.html"><span>MegoldÃ¡s</span></a>
+			<a href="index.html"><span>Kezdõlap</span></a>
+			<a href="kod.html"><span>Programkod</span></a>
+			<a href="megoldas.html"><span>Megoldás</span></a>
 			<a href="algterv.html"><span>Milstone 1</span></a>
-			<a href="milstone2.html"><span>Milstone 2</span></a>				
-			<a href="hivatkozasok.html" id="last"><span>HivatkozÃ¡sok</span></a>
+			<a href="milstone2.html"><span>Milstone 2</span></a>
+			<a href="milstone3.html"><span>Milstone 3</span></a>			
+			<a href="hivatkozasok.html" id="last"><span>Hivatkozások</span></a>
 		</div>
 		<div class="content">
 			<div class="item">
-				<h1>MegvalÃ³sÃ­tÃ¡s</h1>
+				<h1>Megvalósítás</h1>
 				<p>
-				OlcsÃ³ webkamera segÃ­tsÃ©gÃ©vel, mely felÃ¼lrÅ‘l figyeli a kÃ©z gesztusait.
+				Olcsó webkamera segítségével, mely felülrõl figyeli a kéz gesztusait.
 			<OL>
-				<LI><b>KÃ©z alapÃ©rtelmezett Ã¡llapota: mutatÃ³ ujj elÅ‘re felÃ©, kinyÃºjtott helyzetben. A kÃ©z mozgÃ¡sa megfeleltethetÅ‘ az egÃ©rmutatÃ³ mozgÃ¡sÃ¡nak.</b></LI>
+				<LI><b>Kéz alapértelmezett állapota: mutató ujj elõre felé, kinyújtott helyzetben. A kéz mozgása megfeleltethetõ az egérmutató mozgásának.</b></LI>
 							</br>
-				<LI><b>Bal klikk esemÃ©ny: HÃ¼velyk ujj kinyitÃ¡sa egy bizonyos kÃ¼szÃ¶b szÃ¶g feletti Ã¡llÃ¡sba, a mutatÃ³ ujjhoz kÃ©pest. </b></LI>
+				<LI><b>Bal klikk esemény: Hüvelyk ujj kinyitása egy bizonyos küszöb szög feletti állásba, a mutató ujjhoz képest. </b></LI>
 							</br>
-				<LI><b>Bal gomb dupla kattintÃ¡s esemÃ©ny: HÃ¼velyk ujj kinyitÃ¡sa egy idÅ‘intervallumon belÃ¼l kÃ©tszer, a kÃ¼szÃ¶b szÃ¶g fÃ¶lÃ©.</b></LI>
+				<LI><b>Bal gomb dupla kattintás esemény: Hüvelyk ujj kinyitása egy idõintervallumon belül kétszer, a küszöb szög fölé.</b></LI>
 				</br>
-				<LI><b>Bal gomb nyomva tartÃ¡s esemÃ©ny: HÃ¼velyk ujj kinyitÃ¡sa a kÃ¼szÃ¶b szÃ¶g fÃ¶lÃ© Ã©s a szÃ¶g fÃ¶lÃ¶tt tartÃ¡sa egy meghatÃ¡rozott idÅ‘n tÃºl. </b></LI>
+				<LI><b>Bal gomb nyomva tartás esemény: Hüvelyk ujj kinyitása a küszöb szög fölé és a szög fölött tartása egy meghatározott idõn túl. </b></LI>
 				</br>
-				<LI><b>Jobb klikk esemÃ©ny: MÃ©g nincs rÃ¡ mÅ±kÃ¶dÅ‘ megoldÃ¡s </b></LI>
+				<LI><b>Jobb klikk esemény: Kéz területnövekedés</b></LI>
 				</br>
 			</OL>
-				<p>A programozÃ¡shoz Microsoft Visual Studio 2010-et Ã©s OpenCV-t hasznÃ¡lunk (c++).</p>
+				<p>A programozáshoz Microsoft Visual Studio 2010-et és OpenCV-t használunk (c++).</p>
 
 				</p>
 			</div>
@@ -46,36 +47,36 @@
 				<h1>Algoritmusterv</h1>
 				<p>
 			<OL>
-				<LI><b>kamera inicializÃ¡lÃ¡sa (felbontÃ¡s, fps)</b></LI>
+				<LI><b>kamera inicializálása (felbontás, fps)</b></LI>
 							</br>
 				<LI><b>minden frame-re:</b></LI>
 							</br>
 				<OL  TYPE=a>
-					<LI><b>szegmentÃ¡lÃ¡s (2D normalizÃ¡lt szintÃ©ren alapulÃ³, vagy HSV szintÃ©ren alapulÃ³)</b></LI>
+					<LI><b>szegmentálás (2D normalizált szintéren alapuló, vagy HSV szintéren alapuló)</b></LI>
 					</br>
-					<LI><b>ujjhegyek meghatÃ¡rozÃ¡sa (kontÃºr Ã©s konvex burok segÃ­tsÃ©gÃ©vel)</b></LI>
+					<LI><b>ujjhegyek meghatározása (kontúr és konvex burok segítségével)</b></LI>
 					</br>
-					<LI><b>kurzor Ãºj pozÃ­ciÃ³ba mozgatÃ¡sa</b></LI>
+					<LI><b>kurzor új pozícióba mozgatása</b></LI>
 					</br>
-					<LI><b>ha a kÃ©zgesztusbÃ³l kÃ¶vetkezik: kattintÃ¡s</b></LI>
+					<LI><b>ha a kézgesztusból következik: kattintás</b></LI>
 				</OL>
 				</br>
-				<LI><b>amÃ­g a felhasznÃ¡lÃ³ le nem Ã¡llÃ­tja a programot</b></LI>
+				<LI><b>amíg a felhasználó le nem állítja a programot</b></LI>
 				</br>
 			</OL> 
 				</p>
 				<br>
 			</div>
 			<div class="item">
-				<h1>MegkÃ¶tÃ©sek</h1>
+				<h1>Megkötések</h1>
 				<p>
-				MegfelelÅ‘ megvilÃ¡gÃ­tÃ¡s biztosÃ­tÃ¡sa, termÃ©szetes fÃ©ny, vagy mestersÃ©ges fÃ©ny segÃ­tsÃ©gÃ©vel. 
-				Kamera elhelyezÃ©se egy meghatÃ¡rozott tÃ¡volsÃ¡gban a kÃ©ztÅ‘l. 
+				Megfelelõ megvilágítás biztosítása, természetes fény, vagy mesterséges fény segítségével. 
+				Kamera elhelyezése egy meghatározott távolságban a kéztõl. 
 				</p>
 				<br>
 			</div>
 		</div>
-		<div class="footer">&copy; 2011 SzÃ¡mÃ­tÃ³gÃ©pes LÃ¡tÃ¡s. Design by <a href="http://www.arcsin.se">Arcsin</a></div>
+		<div class="footer">&copy; 2011 Számítógépes Látás. Design by <a href="http://www.arcsin.se">Arcsin</a></div>
 	</div>	
 </div>
 </body>
