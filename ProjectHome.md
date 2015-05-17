@@ -1,0 +1,1 @@
+A system where a camera interprets your hand movements and finger gestures. These movements are interpreted as real mouse events.
